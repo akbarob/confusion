@@ -8,6 +8,7 @@ export const Comments=(state=COMMENTS ,action) => {
             Comment.id = state.length;
             Comment.date = new Date().toISOString();
             console.log("Comment: ", Comment);
+            console.log("ran")
             console.log(state.concat(Comment))
             return state.concat(Comment);
             
