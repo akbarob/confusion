@@ -14,7 +14,7 @@ import { useEffect} from 'react';
 
 
 
-function Main (props){
+function Main (){
 
 const dishes = useSelector(state => state.Dishes)
 const Promotions  = useSelector(state => state.Promotions)
@@ -22,9 +22,7 @@ const Comments = useSelector(state => state.Comments)
 const Leaders = useSelector(state => state.Leaders)
 const dispatch = useDispatch()
 
-useEffect(() =>{
-    dispatch(addComment())
-  },[dispatch])
+
 
   function HomePage(){
       return(
@@ -39,14 +37,20 @@ useEffect(() =>{
         const {dishId} = useParams();
         return(
           <>
+          <div className='container'>
+          
            Comments total {Comments.length}
-      <p>
+       <p>
         Comments on this dish
         {Comments.filter(c => c.dishId === 0).length}
       </p>
+
+          </div>
           <DishDetails dish={dishes.filter(dish => dish.id === parseInt(dishId,10))[0]}
           comments={Comments.filter(comment => comment.dishId === parseInt(dishId,10))}
-          addComment={addComment}
+          addComment={dispatch(addComment(dishId, rating, author, comment))}
+          
+          
           /> 
           </>
           
