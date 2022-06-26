@@ -7,7 +7,7 @@ import Menu from './MenuComponents';
 import DishDetails from "./DishDetails";
 import Home from './HomeComponents';
 import { Navigate, Route, Routes,useParams} from 'react-router-dom'
-import { addComment } from '../redux/ActionCreators';
+import { addComment,fetchDishes } from '../redux/ActionCreators';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 
@@ -23,17 +23,24 @@ const mapStateToProps = state => {
   
   const mapDispatchToProps = dispatch => ({
     addComment: (dishId, rating, author, comment) =>
-      dispatch(addComment(dishId, rating, author, comment))
+      dispatch(addComment(dishId, rating, author, comment)),
+      fetchDishes:() => {dispatch(fetchDishes())}
   });
   class MainClass extends Component{
     constructor(props){
        super(props) 
     }
+
+    componentDidMount(){
+      this.props.fetchDishes()
+    }
     render(){
         const HomePage = () => {
     return (
       <Home
-        dishes={this.props.dishes.filter(dish => dish.featured)[0]}
+        dishes={this.props.dishes.dishes.filter(dish => dish.featured)[0]}
+        dishesLoading={this.props.dishes.isLoading}
+        dishesErrMess={this.props.dishes.errMess}
         Leaders={this.props.Leaders.filter(leader => leader.featured)[0]}
         Promotions={this.props.Promotions.filter(promo => promo.featured)[0]}
       />
@@ -51,8 +58,10 @@ const mapStateToProps = state => {
           {this.props.Comments.filter(c => c.dishId === 0).length}
         </p>
         <DishDetails
-            dish={this.props.dishes.filter(dish => dish.id === parseInt(dishId,10))[0]}
-          comments={this.props.Comments.filter(
+            dish={this.props.dishes.dishes.filter(dish => dish.id === parseInt(dishId,10))[0]}
+            isLoading={this.props.dishes.isLoading}
+            errMess={this.props.dishes.errMess}
+            comments={this.props.Comments.filter(
             comment => comment.dishId === parseInt(dishId, 10)
           )}
           addComment={this.props.addComment}

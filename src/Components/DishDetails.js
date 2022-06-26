@@ -3,6 +3,7 @@ import { Card, CardBody, CardImg,  CardText, CardTitle,  Breadcrumb, BreadcrumbI
 import { Link } from "react-router-dom";
 import { Button } from "bootstrap";
 import RenderCommentForm from "./CommentForm";
+import { Loading } from "./Loading";
 
 
 function RenderDish(props){
@@ -63,7 +64,25 @@ function RenderComments (props){
 }  
 
 export default function DishDetails (props){
-  
+  if(props.isLoading){
+    return(
+      <div className="container">
+        <div className="row">
+          <Loading/>
+        </div>
+      </div>
+    )
+  }
+  else if(props.errMess){
+    return(
+      <div className="container">
+        <div className="row">
+          <h4>{props.errMess}</h4>
+        </div>
+      </div>
+    )
+  }
+  else if(props.dish !=null)
   return (
     <div className="container">
     <div className="row">

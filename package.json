@@ -20,6 +20,7 @@
     "reactstrap": "^9.0.2",
     "redux": "3.7.2",
     "redux-form": "^8.3.8",
+    "redux-logger": "^3.0.6",
     "web-vitals": "^2.1.0"
   },
   "scripts": {
