@@ -48,7 +48,7 @@ const dispatch = useDispatch()
           </div>
           <DishDetails dish={dishes.filter(dish => dish.id === parseInt(dishId,10))[0]}
           comments={Comments.filter(comment => comment.dishId === parseInt(dishId,10))}
-          addComment={dispatch(addComment(dishId, rating, author, comment))}
+          addComment={dispatch(addComment())}
           
           
           /> 

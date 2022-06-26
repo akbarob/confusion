@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import store from './redux/store';
 import { BrowserRouter } from 'react-router-dom';
 import './App.css';
-import Main from './Components/Main';
+import MainClass from './Components/MainClass';
 
 
 export default function App (){
@@ -11,7 +11,7 @@ export default function App (){
       <Provider store ={store}>
         <BrowserRouter>
         <div>
-          <Main/>
+          <MainClass/>
         </div>
         </BrowserRouter>
       </Provider>
