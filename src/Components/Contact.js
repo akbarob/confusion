@@ -1,7 +1,7 @@
-import { Breadcrumb, BreadcrumbItem, Form, FormGroup, Input, Label,Col, Row, Button, FormFeedback } from "reactstrap" 
+import { Breadcrumb, BreadcrumbItem,  FormGroup, Input, Label,Col, Row, Button, FormFeedback } from "reactstrap" 
 import { Link } from "react-router-dom"
 import { useState } from "react"
-import { Control, LocalForm, Errors } from "react-redux-form"
+import { Control, Form, Errors, actions } from "react-redux-form"
 
 
 const required =(val)=> val && val.length
@@ -10,12 +10,13 @@ const minLength =(len) => (val) => (val) && (val.length >= len)
 const isNumber =(val) => !isNaN(Number(val))
 const validEmail = (val) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val);
 
-export default function Contact(){
+export default function Contact(props){
   
   function handleSubmit(values){
     
     console.log("current State is" + JSON.stringify(values));
     alert("current State is" + JSON.stringify(values));
+    props.resetFeedbackForm()
   }
   
     return(
@@ -66,8 +67,8 @@ export default function Contact(){
               <h3>Send  Us Your Feedback</h3>
             </div>
             <div className="col-12 col-md-9">
-              <LocalForm onSubmit={(values) => handleSubmit(values)}>
-                <Row  className="form-group" >
+              <Form model='feedback' onSubmit={(values) => handleSubmit(values)}>
+                <Row  className="form-group my-3" >
                   <Label for="firstName" md='2'>First Name</Label>
                   <Col md={10}>
                                     <Control.text model=".firstname" id="firstname" name="firstname"
@@ -88,7 +89,7 @@ export default function Contact(){
                                      />
                   </Col>
                   </Row>
-                <Row  className="form-group" >
+                <Row  className="form-group my-3" >
                   <Label for="lastName" md='2'>Last Name</Label>
                   <Col md='10'>
                     <Control.text  model=".lastname"
@@ -115,7 +116,7 @@ export default function Contact(){
 
                   </Col>
                   </Row>
-                <Row  className="form-group" >
+                <Row  className="form-group my-3" >
                   <Label for="telnum" md='2'>Tel no.</Label>
                   <Col md='10'>
                     <Control.text 
@@ -145,7 +146,7 @@ export default function Contact(){
 
                   </Col>
                   </Row>
-                <Row  className="form-group" >
+                <Row  className="form-group my-3" >
                 <Label for="email" md='2'> email</Label>
                 <Col md={10}>
                   <Control.text model=".email" id="email" name="email"
@@ -166,7 +167,7 @@ export default function Contact(){
                                      />
                                 </Col>
                   </Row>
-                <Row  className="form-group" >
+                <Row  className="form-group my-3" >
                   <Col md={{size: 6, offset:2}}>
                     <div className="form-check">
                       <Label check>
@@ -187,7 +188,7 @@ export default function Contact(){
                         </Control.select>
                   </Col>
                 </Row>
-                <Row  className="form-group" >
+                <Row  className="form-group my-3" >
                 <Label htmlFor="textarea" md='2'>Your Feedback</Label>
                   <Col md='10'>
                     <Control.textarea 
@@ -232,13 +233,13 @@ export default function Contact(){
                     </div>
 
                 </Row>
-                <Row  className="form-group" >
+                <Row  className="form-group my-3" >
                   <Col md={{size:10, offset:2}}>
                     <Button type="submit" color="primary">Send Feedback</Button>
                   </Col>
                
                 </Row>
-              </LocalForm>
+              </Form>
 
             </div>
 

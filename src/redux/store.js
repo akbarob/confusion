@@ -4,9 +4,8 @@ import { Dishes } from './dishes';
 import { Leaders } from './leaders';
 import { Comments } from './comments';
 import logger from 'redux-logger';
-
-
-
+import { createForms } from "react-redux-form";
+import { InitialFeedback } from './forms';
 
 
 
@@ -15,7 +14,10 @@ const store = configureStore({
         Dishes,
         Promotions,
         Leaders,
-        Comments
+        Comments,
+        ...createForms({
+            feedback: InitialFeedback
+        })
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger)
 
