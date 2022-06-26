@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Card, CardImg, CardImgOverlay, CardTitle, Breadcrumb, BreadcrumbItem } from "reactstrap";
+import { baseUrl } from "../shared/baseUrl";
 import { Loading } from "./Loading";
 
  function RenderMenuItem (props) {
@@ -10,7 +11,7 @@ import { Loading } from "./Loading";
         <div>
           <Card >
             <Link to ={`/menu/${props.dish.id}`} >
-            <CardImg width="100%"src={props.dish.image}/>
+            <CardImg width="100%"src={ baseUrl + props.dish.image}/>
             <CardImgOverlay>
               <CardTitle>{props.dish.name}</CardTitle>
             </CardImgOverlay>

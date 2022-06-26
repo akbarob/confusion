@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Button } from "bootstrap";
 import RenderCommentForm from "./CommentForm";
 import { Loading } from "./Loading";
+import { baseUrl } from "../shared/baseUrl";
 
 
 function RenderDish(props){
@@ -14,7 +15,7 @@ function RenderDish(props){
           
           <div className="row">
             <Card>
-                <CardImg width="100%"src={dish.image}/>
+                <CardImg width="100%"src={baseUrl + dish.image}/>
                 <CardBody>
                   <CardTitle>{dish.name}</CardTitle>
                   <CardText>{dish.description}</CardText>
