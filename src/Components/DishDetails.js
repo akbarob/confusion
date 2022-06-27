@@ -57,7 +57,7 @@ function RenderComments (props){
             </ul>
             <RenderCommentForm  
             dishId={props.dishId}
-            addComment={props.addComment}
+            postComment={props.postComment}
            />
         </div>
       )
@@ -103,7 +103,7 @@ export default function DishDetails (props){
         </div>
         <div className="col-12 col-md-5 m-1">
             <RenderComments comments={props.comments} 
-            addComment={props.addComment}
+            postComment={props.postComment}
             dishId={props.dish.id}/>
             
         </div>

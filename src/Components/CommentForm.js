@@ -22,7 +22,7 @@ function handleSubmit(values){
     
     //console.log("current State is" + JSON.stringify(values));
     //alert("current State is" + JSON.stringify(values));
-    props.addComment(
+    props.postComment(
         props.dishId, 
         values.rating, 
         values.author, 

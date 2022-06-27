@@ -7,7 +7,7 @@ import Menu from './MenuComponents';
 import DishDetails from "./DishDetails";
 import Home from './HomeComponents';
 import { Navigate, Route, Routes,useParams} from 'react-router-dom'
-import { addComment,fetchDishes,fetchComments,fetchPromos } from '../redux/ActionCreators';
+import { postComment,fetchDishes,fetchComments,fetchPromos } from '../redux/ActionCreators';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { actions} from "react-redux-form";
@@ -22,8 +22,8 @@ const mapStateToProps = state => {
   };
   
   const mapDispatchToProps = dispatch => ({
-    addComment: (dishId, rating, author, comment) =>
-      dispatch(addComment(dishId, rating, author, comment)),
+    postComment: (dishId, rating, author, comment) =>
+      dispatch(postComment(dishId, rating, author, comment)),
       fetchDishes:() => {dispatch(fetchDishes())},
       resetFeedbackForm: ()=> {dispatch(actions.reset('feedback'))},
       fetchComments:() => {dispatch(fetchComments())},
@@ -71,7 +71,7 @@ const mapStateToProps = state => {
             errMess={this.props.dishes.errMess}
             comments={this.props.Comments.Comments.filter(comment => comment.dishId === parseInt(dishId, 10))}
             commentsErrMess={this.props.Comments.errMess}
-            addComment={this.props.addComment}
+            postComment={this.props.postComment}
         />
       </>
     );
