@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { Card, CardImg, CardImgOverlay, CardTitle, Breadcrumb, BreadcrumbItem } from "reactstrap";
 import { baseUrl } from "../shared/baseUrl";
 import { Loading } from "./Loading";
+import {motion} from 'framer-motion'
+
 
  function RenderMenuItem (props) {
    
@@ -52,7 +54,12 @@ import { Loading } from "./Loading";
     
       
       return(
-          <div className="container">
+          <motion.div className="container"
+          initial={{opacity:0, width:0}}
+          animate={{opacity:1, width:"100%"}}
+          exit={{opacity:0, x:window.innerWidth, transition:{duration:0.3}}}
+            
+          >
             <div className="row">
               <Breadcrumb>
                 <BreadcrumbItem>
@@ -71,7 +78,7 @@ import { Loading } from "./Loading";
             <div className="row">
               {menu}
             </div>
-          </div>
+          </motion.div>
       )
  }   
 

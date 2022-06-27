@@ -2,6 +2,7 @@ import { Breadcrumb, BreadcrumbItem,  FormGroup, Input, Label,Col, Row, Button, 
 import { Link } from "react-router-dom"
 import { useState } from "react"
 import { Control, Form, Errors, actions } from "react-redux-form"
+import {motion} from 'framer-motion'
 
 
 const required =(val)=> val && val.length
@@ -20,7 +21,10 @@ export default function Contact(props){
   }
   
     return(
-         <div className="container">
+         <motion.div className="container"
+            initial={{opacity:0, width:0}}
+            animate={{opacity:1, width:"100%"}}
+            exit={{opacity:0, x:window.innerWidth, transition:{duration:0.3}}}>
           <div className="row">
                 <Breadcrumb>
                   <BreadcrumbItem>
@@ -244,7 +248,7 @@ export default function Contact(props){
             </div>
 
           </div>
-          </div>
+          </motion.div>
       
     )
 }

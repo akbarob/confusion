@@ -6,11 +6,14 @@ import Menu from './MenuComponents';
 
 import DishDetails from "./DishDetails";
 import Home from './HomeComponents';
-import { Navigate, Route, Routes,useParams} from 'react-router-dom'
+import { Navigate, Route, Routes,useParams, useLocation} from 'react-router-dom'
 import { postComment,fetchDishes,fetchComments,fetchPromos } from '../redux/ActionCreators';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { actions} from "react-redux-form";
+
+import { motion } from 'framer-motion';
+import AnimatedRoutes from './AnimatedRoutes'
 
 const mapStateToProps = state => {
     return {
@@ -41,7 +44,7 @@ const mapStateToProps = state => {
       this.props.fetchPromos()
     }
     render(){
-        const HomePage = () => {
+         const HomePage = () => {
     return (
       <Home
         dishes={this.props.dishes.dishes.filter(dish => dish.featured)[0]}
@@ -77,23 +80,17 @@ const mapStateToProps = state => {
     );
   };
 
-
         return(
             <div >
         <Header/>
-        
-          <Routes>
-            <Route path='/' element={<HomePage/>}/>
-            <Route path='/home' element={<HomePage/>}/>
-            <Route path='/menu' element={<Menu dishes={this.props.dishes} />} />
-            <Route path='menu/:dishId' element={<DishWithId/>}/>
-            <Route path='/contact' element={<Contact resetFeedbackForm={this.props.resetFeedbackForm}/>} />
-            <Route path='/about' element={<About Leaders={this.props.Leaders} />}/>
-            <Route path='*' element={<Navigate to='/'/>}/>
-          
-          </Routes>
-          
-        
+            <AnimatedRoutes 
+              HomePage={HomePage}
+              DishWithId={DishWithId}
+              dish={this.props.dishes}
+              reset={this.props.resetFeedbackForm}
+              Leaders={this.props.Leaders}
+
+            />
         <Footer/>
       </div>
         )

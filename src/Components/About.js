@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, CardImg, CardSubtitle, CardText, CardTitle, Col, Media, Row } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import {motion} from 'framer-motion'
+
 
 function RenderLeader (props){
     const leaders= props.leaders.map(lead => {
         return(
-            <div key={lead.id} lead={lead.id}>
+            <div key={lead.id} lead={lead.id}
+            
+            >
                 <Card className='mb-3'>
                     <Row className='g-0'>
                         <Col sm='2'>
@@ -32,7 +36,10 @@ export default function About(props) {
   
 
     return(
-        <div className="container">
+        <motion.div className="container"
+            initial={{opacity:0, width:0}}
+            animate={{opacity:1, width:"100%"}}
+            exit={{opacity:0, x:window.innerWidth, transition:{duration:0.3}}}>
             <div className='row'>
                 <Breadcrumb>
                     <BreadcrumbItem><Link to="/home">Home</Link></BreadcrumbItem>
@@ -89,7 +96,7 @@ export default function About(props) {
                     <RenderLeader leaders={props.Leaders}/>
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 }
 
