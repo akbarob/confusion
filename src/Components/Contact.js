@@ -40,7 +40,9 @@ export default function Contact(props){
                 </div>
 
               </div>
-              <div className="row row-content">
+              <motion.div className="row row-content"
+                  animate={{ x: 100 }}
+                  transition={{ type: "spring", bounce: 2 }}>
                   <div className="col-12">
                   <h3>Location Information</h3>
                   </div>
@@ -65,7 +67,7 @@ export default function Contact(props){
                           <a role="button" className="btn btn-success" href="mailto:confusion@food.net"><i className="fa fa-envelope-o"></i> Email</a>
                       </div>
                   </div>
-              </div>
+              </motion.div>
               <div className="row row-content">
             <div className="col-12">
               <h3>Send  Us Your Feedback</h3>

@@ -19,7 +19,8 @@ function RenderCard(props){
     else
 
         return(
-            <Card>
+           
+                <Card>
                 <CardImg src={baseUrl + props.item.image } alt={props.item.name}/>
                 <CardBody>
                     <CardTitle>
@@ -31,9 +32,27 @@ function RenderCard(props){
                 
                 
             </Card>
+
+            
         )
     }
 export default function Home(props){
+    const container = {
+        hidden: { opacity: 0 },
+        show: {
+          opacity: 1,
+          transition: {
+            staggerChildren: 0.5
+          }
+        }
+      }
+      
+      const item = {
+        hidden: { opacity: 0 },
+        show: { opacity: 1 }
+      }
+      
+      
     
     return(
         <>
@@ -41,24 +60,30 @@ export default function Home(props){
              initial={{opacity:0, width:0}}
              animate={{opacity:1, width:"100%"}}
              exit={{opacity:0, x:window.innerWidth, transition:{duration:0.3}}}>
-                <div className="row align-items-start">
-                    <div className="col-12 col-md m-1">
+                <motion.div className="row align-items-start"
+                variants={container}
+                initial="hidden"
+                animate="show">
+                    <motion.div className="col-12 col-md m-1"
+                    variants={item} >
                         <RenderCard item={props.dishes} 
                         isLoading={props.dishesLoading}
                         errMess={props.dishesErrMess}
                         />
-                    </div>
-                    <div className="col-12 col-md m-1">
+                    </motion.div>
+                    <motion.div className="col-12 col-md m-1"
+                    variants={item} >
                         <RenderCard item={props.Promotions}
                         isLoading={props.promosLoading}
                         errMess={props.promosErrMess}/>
-                    </div>
-                    <div className="col-12 col-md m-1">
+                    </motion.div>
+                    <motion.div className="col-12 col-md m-1"
+                    variants={item} >
                         <RenderCard item={props.Leaders}
                         />
-                    </div>
+                    </motion.div>
 
-                </div>
+                </motion.div>
 
             </motion.div>
         </>

@@ -5,14 +5,18 @@ import { Button } from "bootstrap";
 import RenderCommentForm from "./CommentForm";
 import { Loading } from "./Loading";
 import { baseUrl } from "../shared/baseUrl";
+import {motion} from 'framer-motion'
 
 
 function RenderDish(props){
   const dish = props.dish
   if(dish !=null){
       return(
-        <div className="container" >
-          
+        <motion.div className="container" 
+        initial={{opacity: 0}}
+          animate={{opacity:1}}
+          exit={{opacity:0}}
+          transition={{duration:0.5}} >
           <div className="row">
             <Card>
                 <CardImg width="100%"src={baseUrl + dish.image}/>
@@ -21,9 +25,8 @@ function RenderDish(props){
                   <CardText>{dish.description}</CardText>
                 </CardBody>
               </Card>
-              
             </div>
-          </div>
+          </motion.div>
         )
       }
       else{
@@ -33,27 +36,54 @@ function RenderDish(props){
 
 function RenderComments (props){
   const comments= props.comments
+  const list = {
+    visible: {
+      opacity: 1,
+      transition: {
+        when: "beforeChildren",
+        staggerChildren: 0.3,
+        staggerDirection: -1
+      }
+    },
+    hidden: {
+      opacity: 0,
+      transition: {
+        when: "afterChildren"
+      }
+    }
+  };
+
+  const child= {
+    visible: { opacity: 1, x: 0 },
+    hidden: { opacity: 0, x: -100 }
+  };
+
 
   if(comments !=null){
       return(
-        <div className="container" >
+        <div className="container">
             <h4>COMMENTS</h4> 
             <ul className="list-unstyled">
-              <div>{ comments.map((item) => {
+              <motion.div
+              initial="hidden" animate="visible" variants={list}
+              >{ comments.map((item) => {
                 return (
-                  <div key={item.id}>
-                  <li>{item.comment}</li>
-                  <li>
-                    --{item.author}{" "}
-                    {new Intl.DateTimeFormat("en-US", {
-                    year: "numeric",
-                    month: "short",
-                    day: "2-digit"
-                    }).format(new Date(Date.parse(item.date)))}
-                  </li>
-                  <br/>
-                  </div>)})}
-              </div>
+                    <motion.li key={item.id}
+                    variants={child}
+                    >
+                    <p>{item.comment}</p>
+                      <p>--{item.author}, {" "}
+                        {new Intl.DateTimeFormat("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "2-digit"
+                        }).format(new Date(Date.parse(item.date)))}
+                      </p>
+                      <hr />
+                    </motion.li>
+                  
+                  )})}
+              </motion.div>
             </ul>
             <RenderCommentForm  
             dishId={props.dishId}
