@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"
 import { useState } from "react"
 import { Control, Form, Errors, actions } from "react-redux-form"
 import {motion} from 'framer-motion'
+import { Loading } from "./Loading"
 
 
 const required =(val)=> val && val.length
@@ -18,6 +19,15 @@ export default function Contact(props){
     console.log("current State is" + JSON.stringify(values));
     alert("current State is" + JSON.stringify(values));
     props.resetFeedbackForm()
+    props.postFeedback(values.firstname, values.lastname, values.telnum, values.email, values.agree, values.contactType, values.message, )
+    if(props.postFeedback){
+      return(
+        <h3>FORM SUCCSESFULY SUBMITTED</h3>
+      )
+    }
+    return(
+     
+    )
   }
   
     return(
