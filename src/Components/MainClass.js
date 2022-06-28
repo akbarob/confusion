@@ -1,18 +1,15 @@
 import Header from './Header';
 import Footer from './Footer';
-import Contact from './Contact';
-import About from './About';
-import Menu from './MenuComponents';
+
 
 import DishDetails from "./DishDetails";
 import Home from './HomeComponents';
-import { Navigate, Route, Routes,useParams, useLocation} from 'react-router-dom'
+import { useParams} from 'react-router-dom'
 import { postComment,fetchDishes,fetchComments,fetchPromos, fetchLeaders,postFeedback } from '../redux/ActionCreators';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { actions} from "react-redux-form";
 
-import { motion } from 'framer-motion';
 import AnimatedRoutes from './AnimatedRoutes'
 
 const mapStateToProps = state => {
@@ -37,10 +34,7 @@ const mapStateToProps = state => {
 
   });
   class MainClass extends Component{
-    constructor(props){
-       super(props) 
-    }
-
+   
     componentDidMount(){
       this.props.fetchDishes()
       this.props.fetchComments()

@@ -1,9 +1,7 @@
-import { Breadcrumb, BreadcrumbItem,  FormGroup, Input, Label,Col, Row, Button, FormFeedback } from "reactstrap" 
+import { Breadcrumb, BreadcrumbItem,   Label,Col, Row, Button, FormFeedback } from "reactstrap" 
 import { Link } from "react-router-dom"
-import { useState } from "react"
-import { Control, Form, Errors, actions } from "react-redux-form"
+import { Control, Form, Errors, } from "react-redux-form"
 import {motion} from 'framer-motion'
-import { Loading } from "./Loading"
 
 
 const required =(val)=> val && val.length
@@ -16,18 +14,11 @@ export default function Contact(props){
   
   function handleSubmit(values){
     
-    console.log("current State is" + JSON.stringify(values));
-    alert("current State is" + JSON.stringify(values));
+    console.log("FEEDBACK IS" + JSON.stringify(values));
+    alert("THANK YOU FOR YOUR FEEDBACK" + JSON.stringify(values));
     props.resetFeedbackForm()
     props.postFeedback(values.firstname, values.lastname, values.telnum, values.email, values.agree, values.contactType, values.message, )
-    if(props.postFeedback){
-      return(
-        <h3>FORM SUCCSESFULY SUBMITTED</h3>
-      )
-    }
-    return(
-     
-    )
+    
   }
   
     return(
@@ -87,22 +78,22 @@ export default function Contact(props){
                 <Row  className="form-group my-3" >
                   <Label for="firstName" md='2'>First Name</Label>
                   <Col md={10}>
-                                    <Control.text model=".firstname" id="firstname" name="firstname"
-                                        placeholder="First Name"
-                                        className="form-control"
-                                        validators={{
-                                            required, minLength: minLength(3), maxLength: maxLength(15)
-                                        }}
-                                         />
+                    <Control.text model=".firstname" id="firstname" name="firstname"
+                        placeholder="First Name"
+                        className="form-control"
+                        validators={{
+                        required, minLength: minLength(3), maxLength: maxLength(15)
+                      }}
+                      />
                       <Errors
                         className="text-danger"                                  model=".firstname"
                         show="touched"
                       messages={{
-                                     required: 'Required',
-                                            minLength: 'Must be greater than 2 characters',
-                                            maxLength: 'Must be 15 characters or less'
-                                        }}
-                                     />
+                        required: 'Required',
+                        minLength: 'Must be greater than 2 characters',
+                        maxLength: 'Must be 15 characters or less'
+                        }}
+                       />
                   </Col>
                   </Row>
                 <Row  className="form-group my-3" >
@@ -180,8 +171,8 @@ export default function Contact(props){
                     required: 'Required',
                     validEmail: ' Invalid Email Address'
                   }}
-                                     />
-                                </Col>
+                  />
+                  </Col>
                   </Row>
                 <Row  className="form-group my-3" >
                   <Col md={{size: 6, offset:2}}>

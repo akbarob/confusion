@@ -1,12 +1,9 @@
-import { Navbar, NavbarBrand,Nav, NavbarToggler, NavItem, Collapse, Modal, ModalBody, ModalHeader, Button, Form, FormGroup, Label,Input } from 'reactstrap';
+import { Navbar, NavbarBrand,Nav, NavbarToggler, NavItem, Collapse, Modal, ModalBody, ModalHeader, Button,  Row,Col, Label, } from 'reactstrap';
+import { Control,  Form,} from "react-redux-form";
 import {  NavLink } from 'react-router-dom';
 import { useState } from 'react';
 export default function Header (){
-    const[formData, setFormData]=useState({
-        username:'',
-        password:'',
-        remeber:false
-    })
+    
     const[open, setOpen] =useState(false)
     function toggleNav(){
         setOpen(prevState => !prevState)
@@ -16,14 +13,17 @@ export default function Header (){
     function toggleModal(){
         setModalOpen(prevState => !prevState)
     }
-    function handleLogin(event){
+    function handleSubmit(values){
         toggleModal()
-        alert('username: ' + formData.usename.value + "password: " + formData.password.value + "Remember :" + formData.remember.checked)
-        Event.preventDefault()
+        alert("Login Succesfully" + JSON.stringify(values));
+        console.log("THANK YOU FOR YOUR FEEDBACK" + JSON.stringify(values));
+        //props.loginDetails(
+         //   values.username,
+          //  values.password,
+          //  values.remember
+       // )
 
     }
-    
-       
     
     return(
         <>
@@ -82,30 +82,50 @@ export default function Header (){
                     <Button close className='m-auto' onClick={toggleModal}></Button>
                 </ModalHeader>
                 <ModalBody>
-                    <Form onSubmit={handleLogin}>
-                        <FormGroup>
+                    <Form model='login' onSubmit={(values) => handleSubmit(values)}>
+                        <Row className="form-group my-3">
                             <Label htmlFor='username'>Username</Label>
-                            <Input name='username' 
+                            <Col md={10}>
+                            <Control.text 
+                            className='col-12 form-input'
+                            model='.username'
+                            name='username' 
                             type='text' 
                             id='username'
-                            innerRef={input=> formData.username = input}/>
-                        </FormGroup>
-                        <FormGroup>
+                            />
+                            </Col>
+                        </Row>
+                        <Row className="form-group my-3">
                             <Label htmlFor='password'>Password</Label>
-                            <Input name='password' 
+                            <Col md={10}>
+                            <Control.text
+                            className='col-12 form-input'
+                            model=".password"
+                            name='password' 
                             type='password' 
                             id='password'
-                            innerRef={input=> formData.password = input}/>
-                        </FormGroup>
-                        <FormGroup check>
-                            <Label check >
-                                <Input  type='checkbox' 
+                            />
+                            </Col>
+                        </Row>
+                        <Row className="form-group my-3">
+                            <Col md={10}>
+                            <div className='form-check'> 
+                            <Label check  className='col-12'>
+                                <Control.checkbox
+                                model=".remember"
+                                className='form-check-input'
                                 name='remember'
-                                innerRef={input=> formData.remember = input} />Remember me
+                                /><strong>Remember me</strong>
                             </Label>
-                        </FormGroup>
-                        <Button  className='primary' type='submit' onClick={toggleModal}>LOGIN</Button>
-                    </Form>
+                            </div>
+                             </Col>
+                        </Row>
+                        <Row  className="form-group my-3" >
+                            <Col md={{size:10, offset:2}}>
+                                <Button type="submit" color="primary">Send Feedback</Button>
+                             </Col>
+                        </Row>                    
+                </Form>
 
                 </ModalBody>
             </Modal>

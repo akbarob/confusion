@@ -1,7 +1,6 @@
 import React from "react";
 import { Card, CardBody, CardImg,  CardText, CardTitle,  Breadcrumb, BreadcrumbItem } from "reactstrap";
 import { Link } from "react-router-dom";
-import { Button } from "bootstrap";
 import RenderCommentForm from "./CommentForm";
 import { Loading } from "./Loading";
 import { baseUrl } from "../shared/baseUrl";
