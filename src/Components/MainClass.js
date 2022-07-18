@@ -4,13 +4,8 @@ import Footer from './Footer';
 
 import DishDetails from "./DishDetails";
 import Home from './HomeComponents';
-<<<<<<< HEAD
 import { useParams} from 'react-router-dom'
 import { postComment,fetchDishes,fetchComments,fetchPromos, fetchLeaders,postFeedback } from '../redux/ActionCreators';
-=======
-import { Navigate, Route, Routes,useParams, useLocation} from 'react-router-dom'
-import { postComment,fetchDishes,fetchComments,fetchPromos } from '../redux/ActionCreators';
->>>>>>> parent of 7fa08e3 (Assignment done)
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { actions} from "react-redux-form";
@@ -33,6 +28,7 @@ const mapStateToProps = state => {
       resetFeedbackForm: ()=> {dispatch(actions.reset('feedback'))},
       fetchComments:() => {dispatch(fetchComments())},
       fetchPromos:() => {dispatch(fetchPromos())},
+      fetchLeaders:() => {dispatch(fetchLeaders())},
 
   });
   class MainClass extends Component{
@@ -41,6 +37,7 @@ const mapStateToProps = state => {
       this.props.fetchDishes()
       this.props.fetchComments()
       this.props.fetchPromos()
+      this.props.fetchLeaders()
     }
     render(){
          const HomePage = () => {
@@ -49,10 +46,16 @@ const mapStateToProps = state => {
         dishes={this.props.dishes.dishes.filter(dish => dish.featured)[0]}
         dishesLoading={this.props.dishes.isLoading}
         dishesErrMess={this.props.dishes.errMess}
-        Leaders={this.props.Leaders.filter(leader => leader.featured)[0]}
+
         Promotions={this.props.Promotions.Promotions.filter(promo => promo.featured)[0]}
         promosLoading={this.props.Promotions.isLoading}
         promosErrMess={this.props.Promotions.errMess}
+
+        Leaders={this.props.Leaders.Leaders.filter(leader => leader.featured)[0]}
+        leadersLoading={this.props.Leaders.isLoading}
+        leadersErrMess={this.props.Leaders.errMess}
+
+
       />
     );
   };

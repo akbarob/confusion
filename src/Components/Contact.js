@@ -17,11 +17,8 @@ export default function Contact(props){
     console.log("FEEDBACK IS" + JSON.stringify(values));
     alert("THANK YOU FOR YOUR FEEDBACK" + JSON.stringify(values));
     props.resetFeedbackForm()
-<<<<<<< HEAD
     props.postFeedback(values.firstname, values.lastname, values.telnum, values.email, values.agree, values.contactType, values.message, )
     
-=======
->>>>>>> parent of 7fa08e3 (Assignment done)
   }
   
     return(
