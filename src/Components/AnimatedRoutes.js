@@ -14,7 +14,7 @@ export default function AnimatedRoutes(props){
                 <Route path='/home' element={<props.HomePage/>}/>
                 <Route path='/menu' element={<Menu dishes={props.dish} />} />
                 <Route path='menu/:dishId' element={<props.DishWithId/>}/>
-                <Route path='/contact' element={<Contact resetFeedbackForm={props.reset} postFeedback={props.postFeedback}/>} />
+                <Route path='/contact' element={<Contact resetFeedbackForm={props.reset}/>} />
                 <Route path='/about' element={<About Leaders={props.Leaders} />}/>
                 <Route path='*' element={<Navigate to='/'/>}/>
                 

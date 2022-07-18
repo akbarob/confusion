@@ -80,8 +80,6 @@ export default function Home(props){
                     <motion.div className="col-12 col-md m-1"
                     variants={item} >
                         <RenderCard item={props.Leaders}
-                        isLoading={props.leadersLoading}
-                        errMess={props.leadersErrMess}
                         />
                     </motion.div>
 

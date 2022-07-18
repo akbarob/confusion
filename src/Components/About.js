@@ -1,44 +1,18 @@
 import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, CardImg, CardSubtitle, CardText, CardTitle, Col, Media, Row } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import { Loading } from "./Loading"
 import {motion} from 'framer-motion'
-import { baseUrl } from '../shared/baseUrl';
 
 
 function RenderLeader (props){
-    const list = {
-        visible: {
-          opacity: 1,
-          transition: {
-            when: "beforeChildren",
-            staggerChildren: 0.3,
-            staggerDirection: 1
-          }
-        },
-        hidden: {
-          opacity: 0,
-          transition: {
-            when: "afterChildren"
-          }
-        }
-      };
-    
-      const child= {
-        visible: { opacity: 1, x: 0 },
-        hidden: { opacity: 0, x: -100 }
-      };
-    
     const leaders= props.leaders.map(lead => {
         return(
+            <div key={lead.id} lead={lead.id}
             
-            <motion.div key={lead.id} lead={lead.id}
-            variants={child}
-
             >
                 <Card className='mb-3'>
                     <Row className='g-0'>
                         <Col sm='2'>
-                            <CardImg src={baseUrl + lead.image}/>
+                            <CardImg src={lead.image}/>
                         </Col>
                         <Col sm='8'>
                             <CardBody>
@@ -49,24 +23,11 @@ function RenderLeader (props){
                         </Col>
                     </Row>                    
                 </Card>
-            </motion.div>
+            </div>
         )
     })
-    if(props.isLoading){
-        return(
-            <Loading/>
-        )
-    }
-    else if(props.errMess){
-        return(
-            <h4>{props.errMess}</h4>
-        )
-    }
-    else
     return(
-        <motion.div
-        initial="hidden" animate="visible" variants={list}
-        >{leaders}</motion.div>
+        <>{leaders}</>
     )
 }
 
@@ -94,9 +55,7 @@ export default function About(props) {
                     <p>Started in 2010, Ristorante con Fusion quickly established itself as a culinary icon par excellence in Hong Kong. With its unique brand of world fusion cuisine that can be found nowhere else, it enjoys patronage from the A-list clientele in Hong Kong.  Featuring four of the best three-star Michelin chefs in the world, you never know what will arrive on your plate the next time you visit us.</p>
                     <p>The restaurant traces its humble beginnings to <em>The Frying Pan</em>, a successful chain started by our CEO, Mr. Peter Pan, that featured for the first time the world's best cuisines in a pan.</p>
                 </div>
-                <motion.div className="col-12 col-md-5"
-                animate={{ x: 50 }}
-                transition={{ type: "spring", bounce: 2 }}>
+                <div className="col-12 col-md-5">
                     <Card>
                         <CardHeader className="bg-primary text-white">Facts At a Glance</CardHeader>
                         <CardBody>
@@ -112,7 +71,7 @@ export default function About(props) {
                             </dl>
                         </CardBody>
                     </Card>
-                </motion.div>
+                </div>
                 <div className="col-12">
                     <Card>
                         <CardBody className="bg-faded">
@@ -133,11 +92,7 @@ export default function About(props) {
                     <h2>Corporate Leadership</h2>
                 </div>
                 <div className="col-12">
-                    <RenderLeader 
-                    leaders={props.Leaders.Leaders}
-                    isLoading={props.Leaders.isLoading}
-                    errMess={props.Leaders.errMess}
-                    />
+                    <RenderLeader leaders={props.Leaders}/>
                 </div>
             </div>
         </motion.div>
