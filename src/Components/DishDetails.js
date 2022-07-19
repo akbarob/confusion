@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardBody, CardImg,  CardText, CardTitle,  Breadcrumb, BreadcrumbItem } from "reactstrap";
+import { Card, CardBody, CardImg,  CardText, CardTitle,  Breadcrumb, BreadcrumbItem, Button } from "reactstrap";
 import { Link } from "react-router-dom";
 import RenderCommentForm from "./CommentForm";
 import { Loading } from "./Loading";
@@ -41,7 +41,7 @@ function RenderComments (props){
       transition: {
         when: "beforeChildren",
         staggerChildren: 0.3,
-        staggerDirection: -1
+        staggerDirection: 1
       }
     },
     hidden: {
@@ -78,6 +78,8 @@ function RenderComments (props){
                         day: "2-digit"
                         }).format(new Date(Date.parse(item.date)))}
                       </p>
+                      <Button className=" btn-warning" onClick={props.removeComment}>
+                        <span className="fa fa-trash"></span> Remove Comment</Button>
                       <hr />
                     </motion.li>
                   
@@ -133,7 +135,8 @@ export default function DishDetails (props){
         <div className="col-12 col-md-5 m-1">
             <RenderComments comments={props.comments} 
             postComment={props.postComment}
-            dishId={props.dish.id}/>
+            dishId={props.dish.id}
+            removeComment={props.removeComment}/>
             
         </div>
     </div>
