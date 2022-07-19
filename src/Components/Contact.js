@@ -186,7 +186,7 @@ export default function Contact(props){
                       </Label>
                     </div>
                   </Col>
-                  <Col xs={{size: 3, offset:1}}>
+                  <Col xs={{size: 5, offset:1}}>
                         <Control.select model=".contactType" 
                         className="form-select"
                         name='contactType'> 

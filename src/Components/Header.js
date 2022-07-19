@@ -82,10 +82,10 @@ export default function Header (){
                     <Button close className='m-auto' onClick={toggleModal}></Button>
                 </ModalHeader>
                 <ModalBody>
-                    <Form model='login' onSubmit={(values) => handleSubmit(values)}>
+                    <Form model='feedback' onSubmit={(values) => handleSubmit(values)}>
                         <Row className="form-group my-3">
                             <Label htmlFor='username'>Username</Label>
-                            <Col md={10}>
+                            <Col md={12}>
                             <Control.text 
                             className='col-12 form-input'
                             model='.username'
@@ -97,7 +97,7 @@ export default function Header (){
                         </Row>
                         <Row className="form-group my-3">
                             <Label htmlFor='password'>Password</Label>
-                            <Col md={10}>
+                            <Col md={12}>
                             <Control.text
                             className='col-12 form-input'
                             model=".password"
@@ -121,9 +121,8 @@ export default function Header (){
                              </Col>
                         </Row>
                         <Row  className="form-group my-3" >
-                            <Col md={{size:10, offset:2}}>
-                                <Button type="submit" color="primary">Send Feedback</Button>
-                             </Col>
+                                <Button className=' offset-1  col-4' type="submit" color="primary">Login</Button>
+                                <Button className= " offset-2 col-4" color='danger'onClick={toggleModal}>Cancel</Button>
                         </Row>                    
                 </Form>
 
