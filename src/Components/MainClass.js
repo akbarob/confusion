@@ -29,6 +29,9 @@ const mapStateToProps = state => {
       fetchComments:() => {dispatch(fetchComments())},
       fetchPromos:() => {dispatch(fetchPromos())},
       fetchLeaders:() => {dispatch(fetchLeaders())},
+      resetFeedbackForm:()=> { dispatch(actions.reset("feedback"))},
+      postFeedback:(firstname, lastname,telnum, email, agree, contactType, message) => 
+      dispatch(postFeedback(firstname, lastname,telnum, email, agree, contactType, message)),
 
   });
   class MainClass extends Component{
@@ -91,6 +94,7 @@ const mapStateToProps = state => {
               dish={this.props.dishes}
               reset={this.props.resetFeedbackForm}
               Leaders={this.props.Leaders}
+              postFeedback={this.props.postFeedback}
 
             />
         <Footer/>

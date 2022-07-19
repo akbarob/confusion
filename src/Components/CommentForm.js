@@ -37,7 +37,7 @@ function handleSubmit(values){
                     <Button close className='m-auto' onClick={toggleModal}></Button>
                 </ModalHeader>
                 <ModalBody>
-                    <Form model="form"onSubmit={(values => handleSubmit(values))}>
+                    <Form model="" onSubmit={(values => handleSubmit(values))}>
                         <Row className="form-group">
                             <Label htmlFor="rating" md="2"> Select Rating</Label>
                             <Col md="10">
