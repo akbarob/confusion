@@ -82,7 +82,7 @@ export default function Header (){
                     <Button close className='m-auto' onClick={toggleModal}></Button>
                 </ModalHeader>
                 <ModalBody>
-                    <Form model='feedback' onSubmit={(values) => handleSubmit(values)}>
+                    <Form model='login' onSubmit={(values) => handleSubmit(values)}>
                         <Row className="form-group my-3">
                             <Label htmlFor='username'>Username</Label>
                             <Col md={12}>

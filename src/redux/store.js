@@ -6,6 +6,7 @@ import { Comments } from './comments';
 import logger from 'redux-logger';
 import { createForms } from "react-redux-form";
 import { InitialFeedback } from './forms';
+import { InitialLogin } from './loginModal';
 
 
 
@@ -16,7 +17,8 @@ const store = configureStore({
         Leaders,
         Comments,
         ...createForms({
-            feedback: InitialFeedback
+            feedback: InitialFeedback,
+            login: InitialLogin
         })
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger)
