@@ -93,7 +93,7 @@ const mapStateToProps = state => {
               DishWithId={DishWithId}
               dish={this.props.dishes}
               reset={this.props.resetFeedbackForm}
-              Leaders={this.props.Leaders}
+              Leaders={this.props.Leaders.Leaders}
               postFeedback={this.props.postFeedback}
 
             />
