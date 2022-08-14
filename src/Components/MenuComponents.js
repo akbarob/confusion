@@ -63,7 +63,7 @@ import {motion} from 'framer-motion'
             <div className="row">
               <Breadcrumb>
                 <BreadcrumbItem>
-                  <Link to='/home'>HOME</Link>
+                  <Link to='/home'>Home</Link>
                 </BreadcrumbItem>
                 <BreadcrumbItem active>
                   Menu

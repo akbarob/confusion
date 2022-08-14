@@ -68,7 +68,7 @@ export default function Header (){
                     </Nav>
                     </Collapse>
             </Navbar>
-            <div className=" jumbotron ">
+            <div className=" jumbotron">
                 <div className='container'>
                     <div className='row row-header'>
 
@@ -76,7 +76,8 @@ export default function Header (){
                             <h1>Ristorante Con Fusion</h1>
                             <p>We take inspiration from the World's best cuisines, and create a unique fusion experience. Our lipsmacking creations will tickle your culinary senses!</p>
                         </div>
-                        <div className='col-12 col-sm-3'>                            <Reservation/>
+                        <div className='col-12 col-sm-3'>
+                            <Reservation/>
                         </div>
                     </div>
                 </div>

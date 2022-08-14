@@ -21,7 +21,7 @@ function RenderCard(props){
         return(
            
                 <Card>
-                <CardImg src={baseUrl + props.item.image } alt={props.item.name}/>
+                <CardImg src={baseUrl + props.item.image } alt={props.item.name} style={{height:'25rem'}}/>
                 <CardBody>
                     <CardTitle>
                         {props.item.name}
@@ -56,7 +56,7 @@ export default function Home(props){
     
     return(
         <>
-            <motion.div className="container"
+            <motion.div className="container mt-5"
              initial={{opacity:0, width:0}}
              animate={{opacity:1, width:"100%"}}
              exit={{opacity:0, x:window.innerWidth, transition:{duration:1}}}>

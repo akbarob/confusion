@@ -17,7 +17,7 @@ export default function Contact(props){
     console.log("FEEDBACK IS" + JSON.stringify(values));
     alert("THANK YOU FOR YOUR FEEDBACK" + JSON.stringify(values));
     props.resetFeedbackForm()
-    props.postFeedback(values.firstname, values.lastname, values.telnum, values.email, values.agree, values.contactType, values.message, )
+    props.postFeedback(values.firstname, values.lastname, values.telnum, values.email, values.agree, values.contactType, values.message,values.satisfactory )
     
   }
   
@@ -41,24 +41,24 @@ export default function Contact(props){
                 </div>
 
               </div>
-              <motion.div className="row row-content"
-                  animate={{ x: 100 }}
+              <motion.div className="row"
+                  animate={{ x: 70 }}
                   transition={{ type: "spring", bounce: 2 }}>
                   <div className="col-12">
-                  <h3>Location Information</h3>
+                    <h3>Location Information</h3>
                   </div>
-                  <div className="col-12 col-sm-4 offset-sm-1">
-                          <h5>Our Address</h5>
-                          <address>
-                          121, Clear Water Bay Road<br />
-                          Clear Water Bay, Kowloon<br />
-                          HONG KONG<br />
-                          <i className="fa fa-phone"></i>: +852 1234 5678<br />
-                          <i className="fa fa-fax"></i>: +852 8765 4321<br />
+                  <div className="col-11 col-sm-4 offset-sm-1">
+                    <h5>Our Address</h5>
+                    <address>
+                      121, Clear Water Bay Road<br />
+                      Clear Water Bay, Kowloon<br />
+                      Ikeja, Lagos<br />
+                      <i className="fa fa-phone"></i>: +234 1234 5678<br />
+                      <i className="fa fa-fax"></i>: +234 8765 4321<br />
                           <i className="fa fa-envelope"></i>: <a href="mailto:confusion@food.net">confusion@food.net</a>
                           </address>
                   </div>
-                  <div className="col-12 col-sm-6 offset-sm-1">
+                  <div className="col-11 col-sm-6 offset-sm-1">
                       <h5>Map of our Location</h5>
                   </div>
                   <div className="col-12 col-sm-11 offset-sm-1">
@@ -73,7 +73,8 @@ export default function Contact(props){
             <div className="col-12">
               <h3>Send  Us Your Feedback</h3>
             </div>
-            <div className="col-12 col-md-9">
+            <hr />
+            <div className="col-12 col-md-8 mx-auto">
 
               <Form model='feedback' onSubmit={(values) => handleSubmit(values)}>
                 <Row  className="form-group my-3" >
@@ -176,7 +177,7 @@ export default function Contact(props){
                   </Col>
                   </Row>
                 <Row  className="form-group my-3" >
-                  <Col md={{size: 6, offset:2}}>
+                  <Col xs={{size: 6}} md={{size: 4, offset:2}}>
                     <div className="form-check">
                       <Label check>
                         <Control.checkbox 
@@ -217,16 +218,16 @@ export default function Contact(props){
                       model='.min'
                       className="form-radio-input"
                       id="min" name="satisfactory"  /> 
-                      <Label htmlFor="min">4 - 7(Min)</Label>
+                      <Label htmlFor="min">0 - 4 (Min)</Label>
                     
                     </div>
                     <div  className="form-radio" >
                       <Control.radio 
-                      model='.min'
+                      model='.mid'
                       className="form-radio-input"
                       id="mid" name="satisfactory" 
                       /> 
-                      <Label htmlFor="mid">4 - 7(Mid)</Label>
+                      <Label htmlFor="mid">4 - 7 (Mid)</Label>
                     </div>
                     
                     <div  className="form-radio" >
@@ -236,12 +237,12 @@ export default function Contact(props){
                         id="max" 
                         name="satisfactory" 
                         />
-                      <Label htmlFor="max">8 - 10(Max)</Label>
+                      <Label htmlFor="max">8 - 10 (Max)</Label>
 
                     </div>
 
                 </Row>
-                <Row  className="form-group my-3" >
+                <Row  className="form-group my-3 text-center" >
                   <Col md={{size:10, offset:2}}>
                     <Button type="submit" color="primary">Send Feedback</Button>
                   </Col>
