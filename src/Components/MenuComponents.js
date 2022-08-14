@@ -9,9 +9,9 @@ import {motion} from 'framer-motion'
  function RenderMenuItem (props) {
    
   return(
-      <div key={props.dish.id} className="col-12 col-md-5 mx-auto mt-5">
+      <div key={props.dish.id} className="col-12 col-md-5 mx-auto my-5">
         <div>
-          <Card >
+          <Card className="shadow-sm " >
             <Link to ={`/menu/${props.dish.id}`} >
             <CardImg width="100%"src={ baseUrl + props.dish.image}/>
             <CardImgOverlay>

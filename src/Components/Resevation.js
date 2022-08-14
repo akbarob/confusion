@@ -51,7 +51,7 @@ export default function Reservation(){
                                 }}
                                 />
                                 <Errors
-                                className="text-warning" model=".firstname"
+                                className="text-danger" model=".firstname"
                                 show="touched"
                                 messages={{
                                     required: 'Required',

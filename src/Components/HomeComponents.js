@@ -20,14 +20,14 @@ function RenderCard(props){
 
         return(
            
-                <Card>
+                <Card className="border-0 shadow">
                 <CardImg src={baseUrl + props.item.image } alt={props.item.name} style={{height:'25rem'}}/>
                 <CardBody>
                     <CardTitle>
                         {props.item.name}
                     </CardTitle>
                     {props.item.designation ? <CardSubtitle>{props.item.designation}</CardSubtitle> :null}
-                   <CardText>{props.item.description}</CardText> 
+                   <CardText style={{maxheight: '3rem'}} >{props.item.description}</CardText> 
                 </CardBody>
                 
                 
