@@ -28,6 +28,10 @@
     background: #9575CD ;
     color:floralwhite;
 }
+.reserver-text{
+    font-size: small;
+    font-weight: lighter;
+}
 
 address{
     font-size:80%;

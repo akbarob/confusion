@@ -59,7 +59,7 @@ export default function Home(props){
             <motion.div className="container"
              initial={{opacity:0, width:0}}
              animate={{opacity:1, width:"100%"}}
-             exit={{opacity:0, x:window.innerWidth, transition:{duration:0.3}}}>
+             exit={{opacity:0, x:window.innerWidth, transition:{duration:1}}}>
                 <motion.div className="row align-items-start"
                 variants={container}
                 initial="hidden"

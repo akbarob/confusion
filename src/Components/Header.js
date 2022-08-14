@@ -2,6 +2,7 @@ import { Navbar, NavbarBrand,Nav, NavbarToggler, NavItem, Collapse, Modal, Modal
 import { Control,  Form,} from "react-redux-form";
 import {  NavLink } from 'react-router-dom';
 import { useState } from 'react';
+import Reservation from './Resevation';
 export default function Header (){
     
     const[open, setOpen] =useState(false)
@@ -70,9 +71,12 @@ export default function Header (){
             <div className=" jumbotron ">
                 <div className='container'>
                     <div className='row row-header'>
-                        <div className='col-12 c0l-sm-6'>
+
+                        <div className='col-12 col-sm-9'>
                             <h1>Ristorante Con Fusion</h1>
                             <p>We take inspiration from the World's best cuisines, and create a unique fusion experience. Our lipsmacking creations will tickle your culinary senses!</p>
+                        </div>
+                        <div className='col-12 col-sm-3'>                            <Reservation/>
                         </div>
                     </div>
                 </div>

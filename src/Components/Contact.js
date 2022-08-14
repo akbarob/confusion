@@ -74,6 +74,7 @@ export default function Contact(props){
               <h3>Send  Us Your Feedback</h3>
             </div>
             <div className="col-12 col-md-9">
+
               <Form model='feedback' onSubmit={(values) => handleSubmit(values)}>
                 <Row  className="form-group my-3" >
                   <Label for="firstName" md='2'>First Name</Label>
@@ -86,7 +87,7 @@ export default function Contact(props){
                       }}
                       />
                       <Errors
-                        className="text-danger"                                  model=".firstname"
+                        className="text-danger" model=".firstname"
                         show="touched"
                       messages={{
                         required: 'Required',
