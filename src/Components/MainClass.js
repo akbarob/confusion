@@ -5,7 +5,7 @@ import Footer from './Footer';
 import DishDetails from "./DishDetails";
 import Home from './HomeComponents';
 import { useParams} from 'react-router-dom'
-import { postComment,fetchDishes,fetchComments,fetchPromos, fetchLeaders,postFeedback } from '../redux/ActionCreators';
+import { postComment,fetchDishes,fetchComments,fetchPromos, fetchLeaders,postFeedback, deleteComment} from '../redux/ActionCreators';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { actions} from "react-redux-form";
@@ -32,6 +32,7 @@ const mapStateToProps = state => {
       resetFeedbackForm:()=> { dispatch(actions.reset("feedback"))},
       postFeedback:(firstname, lastname,telnum, email, agree, contactType, message) => 
       dispatch(postFeedback(firstname, lastname,telnum, email, agree, contactType, message)),
+      deleteComment:() =>{dispatch(deleteComment())},
 
   });
   class MainClass extends Component{
@@ -46,15 +47,15 @@ const mapStateToProps = state => {
          const HomePage = () => {
     return (
       <Home
-        dishes={this.props.dishes.dishes.filter(dish => dish.featured)[0]}
+        dishes={this.props.dishes.dishes.filter(dish => dish.featured === true )[0]}
         dishesLoading={this.props.dishes.isLoading}
         dishesErrMess={this.props.dishes.errMess}
 
-        Promotions={this.props.Promotions.Promotions.filter(promo => promo.featured)[0]}
+        Promotions={this.props.Promotions.Promotions.filter(promo => promo.featured === true )[0]}
         promosLoading={this.props.Promotions.isLoading}
         promosErrMess={this.props.Promotions.errMess}
 
-        Leaders={this.props.Leaders.Leaders.filter(leader => leader.featured)[0]}
+        Leaders={this.props.Leaders.Leaders.filter(leader => leader.featured === true )[0]}
         leadersLoading={this.props.Leaders.isLoading}
         leadersErrMess={this.props.Leaders.errMess}
 
@@ -65,6 +66,7 @@ const mapStateToProps = state => {
 
   const DishWithId = () =>{
     const {dishId} = useParams();
+    
 
     return (
       <>
@@ -74,12 +76,13 @@ const mapStateToProps = state => {
           {this.props.Comments.Comments.filter(c => c.dishId === 0).length}
         </p>
         <DishDetails
-            dish={this.props.dishes.dishes.filter(dish => dish.id === parseInt(dishId,10))[0]}
+            dish={this.props.dishes.dishes.filter(dish => dish._id === dishId)[0]}
             isLoading={this.props.dishes.isLoading}
             errMess={this.props.dishes.errMess}
-            comments={this.props.Comments.Comments.filter(comment => comment.dishId === parseInt(dishId, 10))}
+            comments={this.props.Comments.Comments.filter(comment => comment.dishId === dishId)}
             commentsErrMess={this.props.Comments.errMess}
             postComment={this.props.postComment}
+            deleteComment={this.props.deleteComment}
         />
       </>
     );

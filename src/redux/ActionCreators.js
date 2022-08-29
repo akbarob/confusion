@@ -1,6 +1,9 @@
 import * as ActionTypes from "./ActionTypes";
 import { baseUrl } from "../shared/baseUrl";
 
+import { db } from "../firebase/firebase";
+import { collection, getDocs } from "firebase/firestore";
+
 export const addComment = (comment) => ({
   type: ActionTypes.ADD_COMMENT,
   payload: comment
@@ -48,28 +51,22 @@ export const postComment = (dishId, rating, author, comment) => (dispatch) => {
 }
 
 
-export const fetchDishes = () => (dispatch) => {
+export const fetchDishes = () => async (dispatch) => {
 
     dispatch(dishesLoading(true));
-    return fetch(baseUrl + "dishes")
-    .then(response =>{
-      if(response.ok){
-        return response
-      }
-      else {
-        var error = new Error('Error ' + response.status + ':' + response.statusText)
-        error.response = response
-        throw error
-      }
-    },
-    error => {
-      var errmess = new Error(error.message)
-      throw errmess
-    })
-    .then(response => response.json())
-    .then(dishes => dispatch(addDishes(dishes)))
-    .catch(error => dispatch(dishesFailed(error.message)))
-
+    try{
+      const querySnapshot = await getDocs(collection(db, "dishes"))
+      let dishes = []
+      querySnapshot.forEach(doc =>{
+        const data = doc.data();
+        const _id = doc.id;
+        dishes.push({ _id, ...data });
+      }) 
+      return dispatch(addDishes(dishes))
+    }
+    catch (error) {
+      return dispatch(dishesFailed(error.message));
+    }
 }
 
 export const dishesLoading = () => ({
@@ -118,29 +115,25 @@ export const addComments = (comments) => ({
   payload: comments
 });
 
+
+
 //PROMOS
-export const fetchPromos = () => (dispatch) => {
+export const fetchPromos = () => async (dispatch) => {
     
   dispatch(promosLoading());
-
-  return fetch(baseUrl + 'promotions')
-  .then(response =>{
-    if(response.ok){
-      return response
-    }
-    else {
-      var error = new Error('Error ' + response.status + ':' + response.statusText)
-      error.response = response
-      throw error
-    }
-  },
-  error => {
-    var errmess = new Error(error.message)
-    throw errmess
-  })
-  .then(response => response.json())
-  .then(promos => dispatch(addPromos(promos)))
-  .catch(error => dispatch(promosFailed(error.message)))
+  try{
+    const querySnapshot = await getDocs(collection(db, "promotions"))
+    let promos =[]
+    querySnapshot.forEach(doc =>{
+      const data = doc.data()
+      const _id = doc.id
+      promos.push({_id, ...data });
+    })
+    return dispatch(addPromos(promos))
+  }
+  catch (error) {
+    return dispatch(dishesFailed(error.message));
+  }
 }
 
 export const promosLoading = () => ({
@@ -158,26 +151,21 @@ export const addPromos = (promos) => ({
 });
 
 //LEADERS
-export const fetchLeaders = () => (dispatch) => {
+export const fetchLeaders = () => async (dispatch) => {
   dispatch(leadersLoading())
-  return fetch(baseUrl + 'leaders')
-  .then(response =>{
-    if(response.ok){
-      return response
-    }
-    else {
-      var error = new Error('Error ' + response.status + ':' + response.statusText)
-      error.response = response
-      throw error
-    }
-  },
-  error => {
-    var errmess = new Error(error.message)
-    throw errmess
-  })
-  .then(response => response.json())
-  .then(leaders => dispatch(addLeaders(leaders)))
-  .catch(error => dispatch(leadersFailed(error.message)))
+  try{
+    const querySnapshot = await getDocs(collection(db, "leaders"))
+    let promos =[]
+    querySnapshot.forEach(doc =>{
+      const data = doc.data()
+      const _id = doc.id
+      promos.push({_id, ...data });
+    })
+    return dispatch(addLeaders(promos))
+  }
+  catch (error) {
+    return dispatch(leadersFailed(error.message));
+  }
 }
 
 export const leadersFailed = (errmess) => ({
@@ -234,5 +222,36 @@ export const postFeedback = (firstname, lastname, telnum, email, agree, contactT
   .then(response => response.json())
   .catch(error => {console.log("post feedback", error.message,
     alert(" YOUR feedback could not be posted\nError"))})
+
+}
+//Delete Comment
+export const deleteComment = (id) => (dispatch) => {
+  console.log(id)
+  return fetch(baseUrl + "comments/" + id, {
+    method: "DELETE",
+  })
+  .then(response =>{
+    if(response.ok){ alert("Comment Deleted Successfuly")
+      return response
+    }
+    else {
+      var error = new Error('Error ' + response.status + ':' + response.statusText)
+      error.response = response
+      throw error
+    }
+  },
+  error => {
+    var errmess = new Error(error.message)
+    throw errmess
+  })
+  .then(response => response.json())
+  .then(id=> dispatch(
+    {type: ActionTypes.DELETE_COMMENT,
+    payload: deleteComment(id)}
+  ))
+  .then(() => {
+    window.location.reload()})
+  .catch(error => {console.log("delete comments", error.message,
+    alert(" YOUR comment could not be Deleted \nError"))})
 
 }

@@ -1,10 +1,10 @@
 import { Card, CardBody,CardImg, CardText, CardTitle, CardSubtitle } from "reactstrap"
-import { baseUrl } from "../shared/baseUrl"
 import { Loading } from "./Loading"
 import {motion} from 'framer-motion'
 
 
 function RenderCard(props){
+    
    // console.log(props.item.name)
     if(props.isLoading){
         return(
@@ -19,10 +19,9 @@ function RenderCard(props){
     else
 
         return(
-           
                 <Card className="border-0 shadow">
-                <CardImg src={baseUrl + props.item.image } alt={props.item.name} style={{height:'25rem'}}/>
-                <CardBody>
+                <CardImg src={ props.item.image } alt={props.item.name} />
+                <CardBody >
                     <CardTitle>
                         {props.item.name}
                     </CardTitle>
@@ -37,6 +36,7 @@ function RenderCard(props){
         )
     }
 export default function Home(props){
+    console.log(props.dishes)
     const container = {
         hidden: { opacity: 0 },
         show: {

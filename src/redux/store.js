@@ -9,6 +9,7 @@ import { InitialFeedback } from './forms';
 import { InitialLogin } from './loginModal';
 import { InitailReserve } from './Reserve';
 
+import * as ActionTypes from "./ActionTypes";
 
 
 const store = configureStore({
@@ -23,7 +24,11 @@ const store = configureStore({
             reserve: InitailReserve
         })
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger)
+    middleware: (getDefaultMiddleware) => 
+    getDefaultMiddleware({
+        serializableCheck:  false
+        
+    }).concat(logger)
 
     
 },

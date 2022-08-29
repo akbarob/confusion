@@ -3,12 +3,14 @@ import { Card, CardBody, CardImg,  CardText, CardTitle,  Breadcrumb, BreadcrumbI
 import { Link } from "react-router-dom";
 import RenderCommentForm from "./CommentForm";
 import { Loading } from "./Loading";
-import { baseUrl } from "../shared/baseUrl";
 import {motion} from 'framer-motion'
 
 
 function RenderDish(props){
+  console.log('sjow dish')
+
   const dish = props.dish
+  console.log("function working")
   if(dish !=null){
       return(
         <motion.div className="container" 
@@ -18,7 +20,7 @@ function RenderDish(props){
           transition={{duration:0.5}} >
           <div className="row">
             <Card>
-                <CardImg width="100%"src={baseUrl + dish.image}/>
+                <CardImg width="100%"src={ dish.image}/>
                 <CardBody>
                   <CardTitle>{dish.name}</CardTitle>
                   <CardText>{dish.description}</CardText>
@@ -34,6 +36,8 @@ function RenderDish(props){
 }
 
 function RenderComments (props){
+  console.log('sjow comment')
+
   const comments= props.comments
   const list = {
     visible: {
@@ -66,6 +70,8 @@ function RenderComments (props){
               <motion.div
               initial="hidden" animate="visible" variants={list}
               >{ comments.map((item) => {
+                const itemId = item.id
+                console.log(itemId)
                 return (
                     <motion.li key={item.id}
                     variants={child}
@@ -78,7 +84,7 @@ function RenderComments (props){
                         day: "2-digit"
                         }).format(new Date(Date.parse(item.date)))}
                       </p>
-                      <Button className=" btn-warning" onClick={props.removeComment}>
+                       <Button className=" btn-warning" >
                         <span className="fa fa-trash"></span> Remove Comment</Button>
                       <hr />
                     </motion.li>
@@ -89,6 +95,7 @@ function RenderComments (props){
             <RenderCommentForm  
             dishId={props.dishId}
             postComment={props.postComment}
+            
            />
         </div>
       )
@@ -96,6 +103,8 @@ function RenderComments (props){
 }  
 
 export default function DishDetails (props){
+  console.log('sjow DIsh Details')
+
   if(props.isLoading){
     return(
       <div className="container">
@@ -114,12 +123,12 @@ export default function DishDetails (props){
       </div>
     )
   }
-  else if(props.dish !=null)
+  else if(props.dish !=null){
+    console.log(props.dish.name)
   return (
     <div className="container">
     <div className="row">
         <Breadcrumb>
-
             <BreadcrumbItem><Link to="/menu">Menu</Link></BreadcrumbItem>
             <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
         </Breadcrumb>
@@ -136,12 +145,20 @@ export default function DishDetails (props){
             <RenderComments comments={props.comments} 
             postComment={props.postComment}
             dishId={props.dish.id}
-            removeComment={props.removeComment}/>
+            />
             
         </div>
     </div>
     </div>
-);
+  )
+
+  }
+  
+  
+  else 
+  return(
+    <div>emoty div</div>
+  )
   
     
     

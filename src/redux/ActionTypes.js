@@ -17,3 +17,6 @@ export const ADD_LEADERS ="ADD_LEADERS"
 
 //post feedback
 export const POST_FEEDBACK ="POST_FEEDBACK"
+
+//Delete Comments
+export const DELETE_COMMENT = "DELETE_COMMENT"

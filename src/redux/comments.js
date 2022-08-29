@@ -24,7 +24,10 @@ export const Comments=(state={
             console.log("Comment: ", Comment);
             console.log(state.Comments.concat(Comment))
             return {...state, Comments: state.Comments.concat(Comment)};
-            
+        case ActionTypes.DELETE_COMMENT:
+            return{
+                id:action.payload
+            }
         default:
             return state;
     };

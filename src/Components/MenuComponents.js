@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Card, CardImg, CardImgOverlay, CardTitle, Breadcrumb, BreadcrumbItem } from "reactstrap";
-import { baseUrl } from "../shared/baseUrl";
 import { Loading } from "./Loading";
 import {motion} from 'framer-motion'
 
@@ -9,17 +8,15 @@ import {motion} from 'framer-motion'
  function RenderMenuItem (props) {
    
   return(
-      <div key={props.dish.id} className="col-12 col-md-5 mx-auto my-5">
-        <div>
-          <Card className="shadow-sm " >
-            <Link to ={`/menu/${props.dish.id}`} >
-            <CardImg width="100%"src={ baseUrl + props.dish.image}/>
+      <div  className="col-12 col-md-5 mx-auto my-5">
+          <Card  className="shadow-sm " >
+            <Link to ={`/menu/${props.dish._id}`} >
+            <CardImg width="100%"src={props.dish.image}/>
             <CardImgOverlay>
               <CardTitle>{props.dish.name}</CardTitle>
             </CardImgOverlay>
             </Link>
           </Card>
-        </div>
       </div>
     )
   
@@ -28,7 +25,7 @@ import {motion} from 'framer-motion'
     
       const menu = props.dishes.dishes.map( (dish) => {
         return(
-          <RenderMenuItem key= {dish.id} dish={dish} />
+          <RenderMenuItem key= {dish._id} dish={dish} />
         )
 
       })
