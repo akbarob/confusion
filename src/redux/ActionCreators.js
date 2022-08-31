@@ -1,8 +1,10 @@
 import * as ActionTypes from "./ActionTypes";
 import { baseUrl } from "../shared/baseUrl";
 
-import { db } from "../firebase/firebase";
+import { auth, db, provider } from "../firebase/firebase";
 import { collection, getDocs } from "firebase/firestore";
+import {getAuth, signInWithEmailAndPassword, onAuthStateChanged, GoogleAuthProvider,signInWithPopup, signOut, createUserWithEmailAndPassword } from "firebase/auth";
+import { async } from "@firebase/util";
 
 export const addComment = (comment) => ({
   type: ActionTypes.ADD_COMMENT,
@@ -254,4 +256,130 @@ export const deleteComment = (id) => (dispatch) => {
   .catch(error => {console.log("delete comments", error.message,
     alert(" YOUR comment could not be Deleted \nError"))})
 
+}
+//Login
+export const requestLogin = () => {
+  return {
+      type: ActionTypes.LOGIN_REQUEST
+  }
+}
+
+export const receiveLogin = (user) => {
+  return {
+      type: ActionTypes.LOGIN_SUCCESS,
+      user
+  }
+}
+
+export const loginError = (message) => {
+  return {
+      type: ActionTypes.LOGIN_FAILURE,
+      message
+  }
+}
+
+
+
+
+export const requestLogout = () => {
+  return {
+    type: ActionTypes.LOGOUT_REQUEST
+  }
+}
+
+export const receiveLogout = () => {
+  return {
+    type: ActionTypes.LOGOUT_SUCCESS
+  }
+}
+
+export const googleLogin = () => (dispatch) => {
+  const provider = new GoogleAuthProvider()
+  const auth = getAuth()
+
+  signInWithPopup(auth, provider)
+  .then((result) => {
+    // This gives you a Google Access Token. You can use it to access the Google API.
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const token = credential.accessToken;
+    // The signed-in user info.
+    const user = result.user;
+    localStorage.setItem('user', JSON.stringify(user));
+     // Dispatch the success action
+     dispatch(receiveLogin(user));
+    // ...
+  }).catch((error) => {
+    // Handle Errors here.
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // The email of the user's account used.
+    //const email = error.customData.email;
+    // The AuthCredential type that was used.
+    const credential = GoogleAuthProvider.credentialFromError(error);
+    // ...
+  });
+}
+export const signupUser= (values) => async dispatch =>{
+  const auth = getAuth()
+  try{
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      values.email, values.password, values.displayName
+      )
+      const user = userCredential.user
+    console.log( user)
+     // Dispatch the success action
+     dispatch(receiveLogin(user));
+  }
+  catch(error){
+    console.log(error.message)
+  }
+  
+}
+export const loginUser = (values) => async (dispatch )=> {
+  dispatch(requestLogin(values))
+  const auth = getAuth()
+  try{
+    
+    const userCredential = await signInWithEmailAndPassword(auth, values.email, values.password,)
+    var user = userCredential.user
+    localStorage.setItem('user' , JSON.stringify(user))
+    dispatch(receiveLogin(user))
+    console.log(user)
+  }
+  catch (error) {
+    return dispatch(loginError(error.message));
+  }
+}
+
+//logout
+export const logoutUser = () => (dispatch) => {
+  dispatch(requestLogout())
+  signOut(auth)
+  .then(() => {
+      // Sign-out successful.
+      dispatch(receiveLogout())
+    }).catch((error) => {
+      // An error happened.
+      
+    });
+  localStorage.removeItem('user');
+  
+  
+}
+ 
+
+export const observer =() => async dispatch =>{
+  const auth = getAuth();
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // User is signed in, see docs for a list of available properties
+    // https://firebase.google.com/docs/reference/js/firebase.User
+    const uid = user.uid;
+    // ...
+  } else {
+    // User is signed out
+    // ...
+  }
+});
 }

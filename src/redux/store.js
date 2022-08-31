@@ -3,6 +3,7 @@ import { Promotions } from './promotions';
 import { Dishes } from './dishes';
 import { Leaders } from './leaders';
 import { Comments } from './comments';
+import { Auth } from './auth';
 import logger from 'redux-logger';
 import { createForms } from "react-redux-form";
 import { InitialFeedback } from './forms';
@@ -10,6 +11,7 @@ import { InitialLogin } from './loginModal';
 import { InitailReserve } from './Reserve';
 
 import * as ActionTypes from "./ActionTypes";
+import { InitialSignup } from './signupModal';
 
 
 const store = configureStore({
@@ -18,10 +20,12 @@ const store = configureStore({
         Promotions,
         Leaders,
         Comments,
+        auth: Auth,
         ...createForms({
             feedback: InitialFeedback,
             login: InitialLogin,
-            reserve: InitailReserve
+            reserve: InitailReserve,
+            signup: InitialSignup
         })
     },
     middleware: (getDefaultMiddleware) => 

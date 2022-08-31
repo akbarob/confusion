@@ -5,7 +5,7 @@ import Footer from './Footer';
 import DishDetails from "./DishDetails";
 import Home from './HomeComponents';
 import { useParams} from 'react-router-dom'
-import { postComment,fetchDishes,fetchComments,fetchPromos, fetchLeaders,postFeedback, deleteComment} from '../redux/ActionCreators';
+import { postComment,fetchDishes,fetchComments,fetchPromos, fetchLeaders,postFeedback, deleteComment, loginUser, googleLogin, logoutUser, signupUser, observer} from '../redux/ActionCreators';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { actions} from "react-redux-form";
@@ -17,7 +17,8 @@ const mapStateToProps = state => {
       dishes: state.Dishes,
       Leaders: state.Leaders,
       Comments: state.Comments,
-      Promotions: state.Promotions
+      Promotions: state.Promotions,
+      auth: state.auth
     };
   };
   
@@ -32,8 +33,11 @@ const mapStateToProps = state => {
       resetFeedbackForm:()=> { dispatch(actions.reset("feedback"))},
       postFeedback:(firstname, lastname,telnum, email, agree, contactType, message) => 
       dispatch(postFeedback(firstname, lastname,telnum, email, agree, contactType, message)),
-      deleteComment:() =>{dispatch(deleteComment())},
-
+      googleLogin: () => dispatch(googleLogin()),
+      loginUser: (values) => dispatch(loginUser(values)),
+      logoutUser:()=> dispatch(logoutUser()),
+      signupUser:(values) => dispatch(signupUser(values)),
+      //observer:()=> dispatch(observer())
   });
   class MainClass extends Component{
    
@@ -42,9 +46,15 @@ const mapStateToProps = state => {
       this.props.fetchComments()
       this.props.fetchPromos()
       this.props.fetchLeaders()
+      const user = localStorage.getItem('user') 
+      
     }
+
+    
+
+    
     render(){
-         const HomePage = () => {
+      const HomePage = () => {
     return (
       <Home
         dishes={this.props.dishes.dishes.filter(dish => dish.featured === true )[0]}
@@ -90,7 +100,13 @@ const mapStateToProps = state => {
 
         return(
             <div >
-        <Header/>
+        <Header
+          auth={this.props.auth}
+          loginUser={this.props.loginUser} 
+          logoutUser={this.props.logoutUser}
+          googleLogin={this.props.googleLogin}
+          signupUser={this.props.signupUser}
+          />
             <AnimatedRoutes 
               HomePage={HomePage}
               DishWithId={DishWithId}

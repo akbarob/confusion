@@ -1,6 +1,5 @@
 export const InitialLogin ={
-    username: '',
+    email: '',
     password:'',
-    remember:false
 
 }

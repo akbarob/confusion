@@ -1,7 +1,6 @@
 import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, CardImg, CardSubtitle, CardText, CardTitle, Col, Media, Row } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import {motion} from 'framer-motion'
-import { baseUrl } from '../shared/baseUrl';
 import { Loading } from './Loading';
 
 
@@ -30,13 +29,13 @@ function RenderLeader (props){
     }
     const leaders= props.leaders.map(lead => {
         return(
-            <motion.div key={lead.id} lead={lead.id}
+            <motion.div key={lead._id} lead={lead.id}
             variants={child}
             >
                 <Card className='mb-3 shadow-sm border-0'>
                     <Row className='g-0'>
                         <Col sm='2'>
-                            <CardImg src={baseUrl + lead.image} alt={lead.name}/>
+                            <CardImg src={lead.image} alt={lead.name}  />
                         </Col>
                         <Col sm='8'>
                             <CardBody>

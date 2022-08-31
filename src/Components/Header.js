@@ -3,7 +3,7 @@ import { Control,  Form,} from "react-redux-form";
 import {  NavLink } from 'react-router-dom';
 import { useState } from 'react';
 import Reservation from './Resevation';
-export default function Header (){
+export default function Header (props){
     
     const[open, setOpen] =useState(false)
     function toggleNav(){
@@ -14,15 +14,43 @@ export default function Header (){
     function toggleModal(){
         setModalOpen(prevState => !prevState)
     }
-    function handleSubmit(values){
+    function handleLogin(values){
+        props.loginUser(values)
         toggleModal()
-        alert("Login Succesfully" + JSON.stringify(values));
-        console.log("THANK YOU FOR YOUR FEEDBACK" + JSON.stringify(values));
-        //props.loginDetails(
-         //   values.username,
-          //  values.password,
-          //  values.remember
-       // )
+        //alert("Login Succesfully" + JSON.stringify(values));
+        //console.log("THANK YOU FOR YOUR FEEDBACK" + JSON.stringify(values));
+        setSignupModalOpen(false)
+        setModalOpen(false)
+        setOpen(false)
+        
+
+    }
+
+
+    const[SignupModalOpen,  setSignupModalOpen]=useState(false)
+    function toggleSignupModal(){
+        toggleModal()
+        setSignupModalOpen(prevState => !prevState)
+        
+    }
+    function handleSignup(values){
+        props.signupUser(values)
+        setSignupModalOpen(false)
+        setModalOpen(false)
+        setOpen(false)
+        
+        //alert("account created Succesfully" + JSON.stringify(values));
+        //alert("THANK YOU FOR YOUR FEEDBACK" + JSON.stringify(values));
+       
+
+    }
+    function GoogleLogin(){
+        props.googleLogin()
+        setModalOpen(false)
+
+    }
+    function handleLogout(){
+        props.logoutUser()
 
     }
     
@@ -58,14 +86,38 @@ export default function Header (){
                            </NavItem>
                     </Nav>
                     
-                    <Nav className='ms-auto'>
-                        <NavItem>
-                            <Button outline onClick={toggleModal}>
-                                <span className='fa fa-sign-in fa-lg'> LOGIN</span>
-                            </Button>
-                        </NavItem>
+                    <Nav className="ms-auto" navbar>
+                                <NavItem>
+                                    { !props.auth.isAuthenticated ?
+                                        <Button outline onClick={toggleModal}>
+                                            <span className="fa fa-sign-in fa-lg"></span> Login
+                                            {props.auth.isFetching ?
+                                                <span className="fa fa-spinner fa-pulse fa-fw"></span>
+                                                : null
+                                            }
+                                        </Button>
+                                        :
+                                        <Row>
+                                            <Col sm='12' lg='6'>
+                                            <h6 className="navbar-text mr-3"> <small>{props.auth.user.email}</small></h6>
 
-                    </Nav>
+                                            </Col>
+                                            <Col sm='12' lg='6'>
+                                            <Button outline onClick={handleLogout}>
+                                            <span className="fa fa-sign-out fa-lg"></span> Logout
+                                            {props.auth.isFetching ?
+                                                <span className="fa fa-spinner fa-pulse fa-fw"></span>
+                                                : null
+                                            }
+                                        </Button>
+                                            </Col>
+                                        </Row>
+                                        
+                                        
+                                    }
+
+                                </NavItem>
+                            </Nav>
                     </Collapse>
             </Navbar>
             <div className=" jumbotron">
@@ -87,16 +139,17 @@ export default function Header (){
                     <Button close className='m-auto' onClick={toggleModal}></Button>
                 </ModalHeader>
                 <ModalBody>
-                    <Form model='login' onSubmit={(values) => handleSubmit(values)}>
+                    <Form model='login' onSubmit={(values) => handleLogin(values)}>
                         <Row className="form-group my-3">
-                            <Label htmlFor='username'>Username</Label>
+                            <Label htmlFor='email'>email</Label>
                             <Col md={12}>
                             <Control.text 
-                            className='col-12 form-input'
-                            model='.username'
-                            name='username' 
-                            type='text' 
-                            id='username'
+                            className='col-12 form-control'
+                            model='.email'
+                            name='email' 
+                            type='email' 
+                            id='email'
+                            autoComplete="on"
                             />
                             </Col>
                         </Row>
@@ -104,35 +157,86 @@ export default function Header (){
                             <Label htmlFor='password'>Password</Label>
                             <Col md={12}>
                             <Control.text
-                            className='col-12 form-input'
+                            className='col-12 form-control form-input'
                             model=".password"
                             name='password' 
                             type='password' 
                             id='password'
+                            autoComplete="on"
                             />
                             </Col>
                         </Row>
-                        <Row className="form-group my-3">
-                            <Col md={10}>
-                            <div className='form-check'> 
-                            <Label check  className='col-12'>
-                                <Control.checkbox
-                                model=".remember"
-                                className='form-check-input'
-                                name='remember'
-                                /><strong>Remember me</strong>
-                            </Label>
-                            </div>
-                             </Col>
-                        </Row>
+                        
                         <Row  className="form-group my-3" >
-                                <Button className=' offset-1  col-4' type="submit" color="primary">Login</Button>
+                                <Button className=' offset-1  col-4' type="submit" color="primary" onClick={handleLogin}>Login</Button>
                                 <Button className= " offset-2 col-4" color='danger'onClick={toggleModal}>Cancel</Button>
-                        </Row>                    
+                        </Row>
+                        <Row className='my-3 col-10 mx-auto'>
+                            <Button color='outline-danger' onClick={GoogleLogin}><span className="fa fa-google fa-lg"></span> Login with Google</Button>    
+                        </Row>      
+                        <Row className='my-3 col-10 mx-auto'>
+                            <Button color='outline-warning' onClick={toggleSignupModal}><span className="fa fa-envelope fa-lg"></span> SIGN UP WITH EMAIL</Button>    
+                        </Row>                  
                 </Form>
 
                 </ModalBody>
             </Modal>
+            <div>
+            <Modal isOpen={SignupModalOpen} toggle={toggleSignupModal} >
+                <ModalHeader >SIGN UP
+                    <Button close className='m-auto' onClick={toggleSignupModal}></Button>
+                </ModalHeader>
+            <ModalBody>
+                    <Form model='signup' onSubmit={(values) => handleSignup(values)}>
+                        <Row className="form-group my-3">
+                            <Label htmlFor='email'>email</Label>
+                            <Col md={12}>
+                            <Control.text 
+                            className='col-12 form-control'
+                            model='.email'
+                            name='email' 
+                            type='email' 
+                            id='email'
+                            autoComplete="on"
+                            />
+                            </Col>
+                        </Row>
+                        <Row className="form-group my-3">
+                            <Label htmlFor='password'>Password</Label>
+                            <Col md={12}>
+                            <Control.text
+                            className='col-12 form-control'
+                            model=".password"
+                            name='password' 
+                            type='password' 
+                            id='password'
+                            autoComplete="on"
+                            />
+                            </Col>
+                        </Row>
+                        <Row className="form-group my-3">
+                            <Label htmlFor='password'>displayName</Label>
+                            <Col md={12}>
+                            <Control.text
+                            className='col-12 form-control'
+                            model=".displayName"
+                            name='displayName' 
+                            type='text' 
+                            id='displayName'
+                            autoComplete="on"
+                            />
+                            </Col>
+                        </Row>
+                        
+                        <Row  className="form-group my-3 mx-auto text-center" >
+                            <Button type = 'submit' color='outline-warning' onClick={handleSignup}>SignUp</Button>
+                        </Row> 
+                                       
+                </Form>
+
+                </ModalBody>
+            </Modal>
+            </div>
         </>
     )
 }
