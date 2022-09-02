@@ -19,10 +19,6 @@ export const Comments=(state={
             }
         case ActionTypes.ADD_COMMENT:
             var Comment = action.payload;
-            //Comment.id = state.Comments.length;
-            //Comment.date = new Date().toISOString();
-            console.log("Comment: ", Comment);
-            console.log(state.Comments.concat(Comment))
             return {...state, Comments: state.Comments.concat(Comment)};
         case ActionTypes.DELETE_COMMENT:
             return{

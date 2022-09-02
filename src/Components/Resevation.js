@@ -31,7 +31,7 @@ export default function Reservation(){
 
             <Modal isOpen={modal} toggle={toggleReservation} >
                 <ModalHeader > Reserve Table
-                    <h6 className="reserver-text">Please fill the form below accurately to enable us serve you better!.. welcome!</h6>
+                    <small className="reserver-text">Please fill the form below accurately to enable us serve you better!.. welcome!</small>
                 </ModalHeader>
                 <ModalBody>
                     <Form model='reserve' onSubmit={(values) => handleReserve(values)}>

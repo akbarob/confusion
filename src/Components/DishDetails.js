@@ -7,7 +7,7 @@ import {motion} from 'framer-motion'
 
 
 function RenderDish(props){
-  console.log('sjow dish')
+  
 
   const dish = props.dish
   console.log("function working")
@@ -36,7 +36,8 @@ function RenderDish(props){
 }
 
 function RenderComments (props){
-  console.log('sjow comment')
+  console.log(props.comments, "commets")
+  
 
   const comments= props.comments
   const list = {
@@ -70,19 +71,19 @@ function RenderComments (props){
               <motion.div
               initial="hidden" animate="visible" variants={list}
               >{ comments.map((item) => {
-                const itemId = item.id
+                const itemId = item._id
                 console.log(itemId)
                 return (
-                    <motion.li key={item.id}
+                    <motion.li key={item._id}
                     variants={child}
                     >
                     <p>{item.comment}</p>
-                      <p>--{item.author}, {" "}
+                      <p>--{item.author.firstname}, {item.author.firstname}, {' '}
                         {new Intl.DateTimeFormat("en-US", {
                         year: "numeric",
                         month: "short",
                         day: "2-digit"
-                        }).format(new Date(Date.parse(item.date)))}
+                        }).format(new Date(Date.parse(item.updatedAT.toDate())))}
                       </p>
                        <Button className=" btn-warning" >
                         <span className="fa fa-trash"></span> Remove Comment</Button>
@@ -103,7 +104,8 @@ function RenderComments (props){
 }  
 
 export default function DishDetails (props){
-  console.log('sjow DIsh Details')
+  
+  
 
   if(props.isLoading){
     return(
@@ -142,9 +144,10 @@ export default function DishDetails (props){
             <RenderDish dish={props.dish} />
         </div>
         <div className="col-12 col-md-5 m-1">
-            <RenderComments comments={props.comments} 
+            <RenderComments 
+            comments={props.comments} 
             postComment={props.postComment}
-            dishId={props.dish.id}
+            dishId={props.dish._id}
             />
             
         </div>

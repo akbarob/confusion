@@ -5,7 +5,7 @@ import Footer from './Footer';
 import DishDetails from "./DishDetails";
 import Home from './HomeComponents';
 import { useParams} from 'react-router-dom'
-import { postComment,fetchDishes,fetchComments,fetchPromos, fetchLeaders,postFeedback, deleteComment, loginUser, googleLogin, logoutUser, signupUser, observer} from '../redux/ActionCreators';
+import { postComment,fetchDishes,fetchComments,fetchPromos, fetchLeaders,postFeedback, deleteComment, loginUser, googleLogin, logoutUser, signupUser, fetchFavorites} from '../redux/ActionCreators';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { actions} from "react-redux-form";
@@ -23,8 +23,8 @@ const mapStateToProps = state => {
   };
   
   const mapDispatchToProps = dispatch => ({
-    postComment: (dishId, rating, author, comment) =>
-      dispatch(postComment(dishId, rating, author, comment)),
+    postComment: (dishId, values) =>
+      dispatch(postComment(dishId, values)),
       fetchDishes:() => {dispatch(fetchDishes())},
       resetFeedbackForm: ()=> {dispatch(actions.reset('feedback'))},
       fetchComments:() => {dispatch(fetchComments())},
@@ -37,7 +37,7 @@ const mapStateToProps = state => {
       loginUser: (values) => dispatch(loginUser(values)),
       logoutUser:()=> dispatch(logoutUser()),
       signupUser:(values) => dispatch(signupUser(values)),
-      //observer:()=> dispatch(observer())
+      fetchFavorites:()=> dispatch(fetchFavorites())
   });
   class MainClass extends Component{
    
@@ -46,7 +46,8 @@ const mapStateToProps = state => {
       this.props.fetchComments()
       this.props.fetchPromos()
       this.props.fetchLeaders()
-      const user = localStorage.getItem('user') 
+      this.props.fetchFavorites()
+     
       
     }
 
@@ -83,7 +84,7 @@ const mapStateToProps = state => {
         Comments total {this.props.Comments.Comments.length}
         <p>
           Comments on this dish
-          {this.props.Comments.Comments.filter(c => c.dishId === 0).length}
+          {this.props.Comments.Comments.filter(c => c.dishId === dishId).length}
         </p>
         <DishDetails
             dish={this.props.dishes.dishes.filter(dish => dish._id === dishId)[0]}
@@ -106,6 +107,7 @@ const mapStateToProps = state => {
           logoutUser={this.props.logoutUser}
           googleLogin={this.props.googleLogin}
           signupUser={this.props.signupUser}
+          
           />
             <AnimatedRoutes 
               HomePage={HomePage}

@@ -1,9 +1,20 @@
 import { Navbar, NavbarBrand,Nav, NavbarToggler, NavItem, Collapse, Modal, ModalBody, ModalHeader, Button,  Row,Col, Label, } from 'reactstrap';
 import { Control,  Form,} from "react-redux-form";
 import {  NavLink } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect, } from 'react';
 import Reservation from './Resevation';
+import { receiveLogin } from '../redux/ActionCreators';
 export default function Header (props){
+   
+    // useEffect(()=>{
+    //     let user 
+    //     // props.fetchFavorites()
+    //     user = localStorage.getItem('user')
+    
+    //     console.log(user)
+    //     receiveLogin(user)
+    
+    // })
     
     const[open, setOpen] =useState(false)
     function toggleNav(){

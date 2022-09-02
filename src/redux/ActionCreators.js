@@ -2,8 +2,8 @@ import * as ActionTypes from "./ActionTypes";
 import { baseUrl } from "../shared/baseUrl";
 
 import { auth, db, provider } from "../firebase/firebase";
-import { collection, getDocs } from "firebase/firestore";
-import {getAuth, signInWithEmailAndPassword, onAuthStateChanged, GoogleAuthProvider,signInWithPopup, signOut, createUserWithEmailAndPassword } from "firebase/auth";
+import { collection, doc, getDoc, getDocs, addDoc, serverTimestamp} from "firebase/firestore";
+import {getAuth, signInWithEmailAndPassword, onAuthStateChanged, GoogleAuthProvider,signInWithPopup, signOut, createUserWithEmailAndPassword,  } from "firebase/auth";
 import { async } from "@firebase/util";
 
 export const addComment = (comment) => ({
@@ -14,43 +14,32 @@ export const addComment = (comment) => ({
 
 
 //POST  to server 
-export const postComment = (dishId, rating, author, comment) => (dispatch) => {
-  const newComment = {
-    dishId: dishId,
-    rating: rating,
-    author: author,
-    comment: comment
+export const postComment =  (dishId, values) =>async dispatch => {
+  const auth = getAuth()
+  const user = auth.currentUser
+    
+    if(user !== null){
+      const email = user.email
+      console.log(email)
+
+      // Add a new document with a generated id.
+      const docRef = await addDoc(collection(db, "comments"), {
+        author: {
+          '_id': auth.currentUser.uid,
+          'firstname' : auth.currentUser.displayName ? auth.currentUser.displayName : auth.currentUser.email
+      },
+      dishId  : dishId,
+      rating: values.rating,
+      comment: values.comment,
+      updatedAT: serverTimestamp()
+      });
+      console.log("Document written with ID: ", docRef.id);
+    }
+
   }
-    newComment.date = new Date().toISOString()
 
-  return fetch(baseUrl + 'comments', {
-    method: "POST",
-    body: JSON.stringify(newComment),
-    headers: {
-      "content-Type": "application/json"
-    },
-    credentials:"same-origin"
-  })
-  .then(response =>{
-    if(response.ok){
-      return response
-    }
-    else {
-      var error = new Error('Error ' + response.status + ':' + response.statusText)
-      error.response = response
-      throw error
-    }
-  },
-  error => {
-    var errmess = new Error(error.message)
-    throw errmess
-  })
-  .then(response => response.json())
-  .then(response => dispatch(addComment(response)))
-  .catch(error => {console.log("post comments", error.message,
-    alert(" YOUR comment could not be posted\nError"))})
 
-}
+
 
 
 export const fetchDishes = () => async (dispatch) => {
@@ -85,26 +74,21 @@ export const addDishes = (dishes) => ({
     payload: dishes
 });
 //COMMENTS
-export const fetchComments = () => (dispatch) => {
+export const fetchComments = () => async (dispatch) => {
+  try{
+    const querySnapshot = await getDocs(collection(db, "comments"))
+    let comments =[]
+    querySnapshot.forEach(doc=>{
+      const data = doc.data()
+      const _id = doc.id
+      comments.push({_id, ...data });
 
-  return fetch(baseUrl + 'comments')
-  .then(response =>{
-    if(response.ok){
-      return response
-    }
-    else {
-      var error = new Error('Error ' + response.status + ':' + response.statusText)
-      error.response = response
-      throw error
-    }
-  },
-  error => {
-    var errmess = new Error(error.message)
-    throw errmess
-  })
-  .then(response => response.json())
-  .then(comments => dispatch(addComments(comments)))
-  .catch(error => dispatch(commentsFailed(error.message)))
+    })
+    return dispatch(addComments(comments))
+  }
+  catch (error) {
+    return dispatch(commentsFailed(error.message));
+  }
 
 
 }
@@ -359,6 +343,7 @@ export const logoutUser = () => (dispatch) => {
   .then(() => {
       // Sign-out successful.
       dispatch(receiveLogout())
+      alert('You have signed out successfully')
     }).catch((error) => {
       // An error happened.
       
@@ -368,18 +353,22 @@ export const logoutUser = () => (dispatch) => {
   
 }
  
-
-export const observer =() => async dispatch =>{
-  const auth = getAuth();
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    // User is signed in, see docs for a list of available properties
-    // https://firebase.google.com/docs/reference/js/firebase.User
-    const uid = user.uid;
-    // ...
-  } else {
-    // User is signed out
-    // ...
+export const fetchFavorites = () => (dispatch) => {
+  const auth = getAuth()
+  onAuthStateChanged(auth, (user) =>{
+    
+    if(user){
+      const uid = user.uid
+      console.log(uid)
+      localStorage.setItem('user', JSON.stringify(user))
+      dispatch(receiveLogin(user))
+    }
+    else{
+    console.log( "User is signed out" )
+    localStorage.removeItem('user')
   }
-});
+  })
+  
+  
+
 }

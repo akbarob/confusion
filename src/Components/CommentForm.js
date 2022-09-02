@@ -19,14 +19,12 @@ function toggleModal(){
 }
 function handleSubmit(values){
     toggleModal()
-    
     //console.log("current State is" + JSON.stringify(values));
     //alert("current State is" + JSON.stringify(values));
     props.postComment(
         props.dishId, 
-        values.rating, 
-        values.author, 
-        values.comment)
+        values)
+        alert(values.rating)
     
   }
 
@@ -54,32 +52,7 @@ function handleSubmit(values){
                                 </Control.select>
                             </Col>
                         </Row>
-                        <Row className="form-group">
-                            <Label for="author" md="2"> Your Name</Label>
-                            <Col md={10}>
-                                <Control.text
-                                    model=".author"
-                                    className="form-input col-12"
-                                    id="author"
-                                    name="author"
-                                    placeholder="Your Name"
-                                    validators={{required,
-                                        minLength: minLength(2),
-                                        maxLength: maxLength(15),
-                                    }}
-                                />
-                                <Errors
-                                model='.author'
-                                className="text-danger"
-                                show='touched'
-                            messages={{
-                            required: 'Required',
-                            minLength: 'Must be greater than 2 numbers',
-                            maxLength: 'Must be 15 numbers or less',
-                                    }}
-                                />
-                            </Col>
-                        </Row>
+                        
                         <Row className="form-group">
                             <Label for="comment" md="2"> Comment</Label>
                             <Col md={10}>
