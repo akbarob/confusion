@@ -102,10 +102,10 @@ function RenderComments (props){
                       null
                          :
                          item.author._id == props.auth.user.uid?
-                        <Button type='submit' className=" btn-warning" 
+                        <Button size="sm" type='submit' className=" btn-warning" 
                         onClick={handleDelete} id={itemId}>
                         
-                         <span className="fa fa-trash"></span> Remove Comment</Button> 
+                         <span className="fa fa-trash"></span> Delete Comment</Button> 
                         :
                         null}
                                               

@@ -35,11 +35,12 @@ export const postComment =  (dishId, values) =>async dispatch => {
       });
       console.log("Document written with ID: ", comment.id);
       dispatch(addComment(comment))
+      dispatch(fetchComments())
     }
     else{
       alert('sign-in to Post Comment')
     }
-dispatch(fetchComments())
+
   }
 
 // Delete comment

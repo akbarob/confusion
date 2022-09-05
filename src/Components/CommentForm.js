@@ -43,6 +43,7 @@ function handleSubmit(values){
                                 model=".rating" 
                                 className="form-select"
                                 name='rating'
+                                defaultValue={1}
                                 >
                                 <option>1</option>
                                 <option>2</option>
@@ -71,8 +72,8 @@ function handleSubmit(values){
                     
                 </ModalBody>
             </Modal>
-            <Button outline onClick={toggleModal} >
-                <span className='fa fa-pencil fa-lg'> Submit Comment</span>
+            <Button size= 'sm' outline onClick={toggleModal} >
+                <span className='fa fa-pencil fa-lg'> Post Comment</span>
             </Button>
         </div>
     )
