@@ -1,10 +1,9 @@
 import React from "react";
 import { Card, CardBody, CardImg,  CardText, CardTitle,  Breadcrumb, BreadcrumbItem, Button } from "reactstrap";
-import { Link, useParams } from "react-router-dom";
+import { Link,  } from "react-router-dom";
 import RenderCommentForm from "./CommentForm";
 import { Loading } from "./Loading";
 import {motion} from 'framer-motion'
-import { auth } from "../firebase/firebase";
 
 
 function RenderDish(props){
@@ -37,9 +36,11 @@ function RenderDish(props){
 }
 
 function RenderComments (props){
-  function handleDelete(itemId){
-  
-    props.deleteComment(itemId)
+  function handleDelete(id){
+    const del= id.target.id
+    // console.log(del)
+    props.deleteComment(del)
+   
   }
   
   console.log(props.comments, "commets")
@@ -80,8 +81,8 @@ function RenderComments (props){
               >{ comments.map((item) => {
                 const itemId = item._id
                 console.log(itemId)
-                console.log(item.author._id)
-                console.log(props.auth.user)
+                // console.log(item.author._id)
+                // console.log(props.auth.user)
                 
                 return (
                     <motion.li key={item._id}
@@ -101,8 +102,9 @@ function RenderComments (props){
                       null
                          :
                          item.author._id == props.auth.user.uid?
-                        <Button className=" btn-warning" 
-                        onClick={handleDelete}>
+                        <Button type='submit' className=" btn-warning" 
+                        onClick={handleDelete} id={itemId}>
+                        
                          <span className="fa fa-trash"></span> Remove Comment</Button> 
                         :
                         null}

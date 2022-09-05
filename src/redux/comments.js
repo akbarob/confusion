@@ -20,6 +20,7 @@ export const Comments=(state={
         case ActionTypes.ADD_COMMENT:
             var Comment = action.payload;
             return {...state, Comments: state.Comments.concat(Comment)};
+            
         case ActionTypes.DELETE_COMMENT:
             return{
                 id:action.payload

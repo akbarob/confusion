@@ -23,7 +23,7 @@ export const postComment =  (dishId, values) =>async dispatch => {
       console.log(email)
 
       // Add a new document with a generated id.
-      const docRef = await addDoc(collection(db, "comments"), {
+      const comment = await addDoc(collection(db, "comments"), {
         author: {
           '_id': auth.currentUser.uid,
           'firstname' : auth.currentUser.displayName ? auth.currentUser.displayName : auth.currentUser.email
@@ -33,26 +33,29 @@ export const postComment =  (dishId, values) =>async dispatch => {
       comment: values.comment,
       updatedAT: serverTimestamp()
       });
-      console.log("Document written with ID: ", docRef.id);
-      dispatch(addComment())
+      console.log("Document written with ID: ", comment.id);
+      dispatch(addComment(comment))
     }
     else{
       alert('sign-in to Post Comment')
     }
-
+dispatch(fetchComments())
   }
 
 // Delete comment
-export const deleteComment = (itemId) => async dispatch =>{
+export const deleteComment = (del) => async dispatch =>  {
   const auth = getAuth()
   const user = auth.currentUser
   if (user !== null){
-    await deleteDoc(doc(db,'comments', itemId))
-  alert('Comment Deleted Successfully!!!')
+    await deleteDoc(doc(db,"comments", `${del}`))
+  alert('Comment Deleted Successfully!!!' )
+  console.log(del)
+  dispatch(fetchComments())
   }
   else{
     alert("You are not authorized to delete commet")
   }
+  
 }
 
 
