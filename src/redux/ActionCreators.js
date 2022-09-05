@@ -2,7 +2,7 @@ import * as ActionTypes from "./ActionTypes";
 import { baseUrl } from "../shared/baseUrl";
 
 import { auth, db, provider } from "../firebase/firebase";
-import { collection, doc, getDoc, getDocs, addDoc, serverTimestamp} from "firebase/firestore";
+import { collection, doc, getDocs, addDoc, serverTimestamp, deleteDoc} from "firebase/firestore";
 import {getAuth, signInWithEmailAndPassword, onAuthStateChanged, GoogleAuthProvider,signInWithPopup, signOut, createUserWithEmailAndPassword,  } from "firebase/auth";
 import { async } from "@firebase/util";
 
@@ -13,7 +13,7 @@ export const addComment = (comment) => ({
 
 
 
-//POST  to server 
+//POST Comment to server 
 export const postComment =  (dishId, values) =>async dispatch => {
   const auth = getAuth()
   const user = auth.currentUser
@@ -34,19 +34,33 @@ export const postComment =  (dishId, values) =>async dispatch => {
       updatedAT: serverTimestamp()
       });
       console.log("Document written with ID: ", docRef.id);
+      dispatch(addComment())
+    }
+    else{
+      alert('sign-in to Post Comment')
     }
 
   }
 
-
-
+// Delete comment
+export const deleteComment = (itemId) => async dispatch =>{
+  const auth = getAuth()
+  const user = auth.currentUser
+  if (user !== null){
+    await deleteDoc(doc(db,'comments', itemId))
+  alert('Comment Deleted Successfully!!!')
+  }
+  else{
+    alert("You are not authorized to delete commet")
+  }
+}
 
 
 export const fetchDishes = () => async (dispatch) => {
 
     dispatch(dishesLoading(true));
     try{
-      const querySnapshot = await getDocs(collection(db, "dishes"))
+      const querySnapshot = await getDocs(collection(db, "dishes", ))
       let dishes = []
       querySnapshot.forEach(doc =>{
         const data = doc.data();
@@ -211,7 +225,7 @@ export const postFeedback = (firstname, lastname, telnum, email, agree, contactT
 
 }
 //Delete Comment
-export const deleteComment = (id) => (dispatch) => {
+export const deleeComment = (id) => (dispatch) => {
   console.log(id)
   return fetch(baseUrl + "comments/" + id, {
     method: "DELETE",

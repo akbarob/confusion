@@ -24,7 +24,7 @@ function handleSubmit(values){
     props.postComment(
         props.dishId, 
         values)
-        alert(values.rating)
+        
     
   }
 

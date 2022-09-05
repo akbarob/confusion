@@ -5,7 +5,7 @@ import Footer from './Footer';
 import DishDetails from "./DishDetails";
 import Home from './HomeComponents';
 import { useParams} from 'react-router-dom'
-import { postComment,fetchDishes,fetchComments,fetchPromos, fetchLeaders,postFeedback, deleteComment, loginUser, googleLogin, logoutUser, signupUser, fetchFavorites} from '../redux/ActionCreators';
+import { postComment,fetchDishes,fetchComments,fetchPromos, fetchLeaders,postFeedback, loginUser, googleLogin, logoutUser, signupUser, fetchFavorites, deleteComment} from '../redux/ActionCreators';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { actions} from "react-redux-form";
@@ -37,7 +37,8 @@ const mapStateToProps = state => {
       loginUser: (values) => dispatch(loginUser(values)),
       logoutUser:()=> dispatch(logoutUser()),
       signupUser:(values) => dispatch(signupUser(values)),
-      fetchFavorites:()=> dispatch(fetchFavorites())
+      fetchFavorites:()=> dispatch(fetchFavorites()),
+      deleteComment:(itemId)=> dispatch(deleteComment(itemId))
   });
   class MainClass extends Component{
    
@@ -94,6 +95,7 @@ const mapStateToProps = state => {
             commentsErrMess={this.props.Comments.errMess}
             postComment={this.props.postComment}
             deleteComment={this.props.deleteComment}
+            auth={this.props.auth}
         />
       </>
     );

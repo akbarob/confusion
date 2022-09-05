@@ -1,9 +1,10 @@
 import React from "react";
 import { Card, CardBody, CardImg,  CardText, CardTitle,  Breadcrumb, BreadcrumbItem, Button } from "reactstrap";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import RenderCommentForm from "./CommentForm";
 import { Loading } from "./Loading";
 import {motion} from 'framer-motion'
+import { auth } from "../firebase/firebase";
 
 
 function RenderDish(props){
@@ -36,8 +37,13 @@ function RenderDish(props){
 }
 
 function RenderComments (props){
-  console.log(props.comments, "commets")
+  function handleDelete(itemId){
   
+    props.deleteComment(itemId)
+  }
+  
+  console.log(props.comments, "commets")
+    
 
   const comments= props.comments
   const list = {
@@ -64,6 +70,7 @@ function RenderComments (props){
 
 
   if(comments !=null){
+    
       return(
         <div className="container">
             <h4>COMMENTS</h4> 
@@ -73,20 +80,34 @@ function RenderComments (props){
               >{ comments.map((item) => {
                 const itemId = item._id
                 console.log(itemId)
+                console.log(item.author._id)
+                console.log(props.auth.user)
+                
                 return (
                     <motion.li key={item._id}
                     variants={child}
                     >
                     <p>{item.comment}</p>
-                      <p>--{item.author.firstname}, {item.author.firstname}, {' '}
+                    <p>{item.rating} <span className="fa fa-star"></span></p>
+                      <p>--{item.author.firstname}, {item.author.lastname}, {' '}
                         {new Intl.DateTimeFormat("en-US", {
                         year: "numeric",
                         month: "short",
                         day: "2-digit"
                         }).format(new Date(Date.parse(item.updatedAT.toDate())))}
                       </p>
-                       <Button className=" btn-warning" >
-                        <span className="fa fa-trash"></span> Remove Comment</Button>
+                      
+                      {!props.auth.isAuthenticated ?
+                      null
+                         :
+                         item.author._id == props.auth.user.uid?
+                        <Button className=" btn-warning" 
+                        onClick={handleDelete}>
+                         <span className="fa fa-trash"></span> Remove Comment</Button> 
+                        :
+                        null}
+                                              
+                        
                       <hr />
                     </motion.li>
                   
@@ -148,6 +169,8 @@ export default function DishDetails (props){
             comments={props.comments} 
             postComment={props.postComment}
             dishId={props.dish._id}
+            deleteComment={props.deleteComment}
+            auth={props.auth}
             />
             
         </div>
