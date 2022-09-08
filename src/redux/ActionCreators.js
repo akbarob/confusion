@@ -1,7 +1,7 @@
 import * as ActionTypes from "./ActionTypes";
 import { baseUrl } from "../shared/baseUrl";
 
-import { auth, db, provider } from "../firebase/firebase";
+import { auth, db, } from "../firebase/firebase";
 import { collection, doc, getDocs, addDoc, serverTimestamp, deleteDoc, where,query} from "firebase/firestore";
 import {getAuth, signInWithEmailAndPassword, onAuthStateChanged, GoogleAuthProvider,signInWithPopup, signOut, createUserWithEmailAndPassword,  } from "firebase/auth";
 import { async } from "@firebase/util";
@@ -57,6 +57,19 @@ export const deleteComment = (del) => async dispatch =>  {
     alert("You are not authorized to delete commet")
   }
   
+}
+export const deleteFavorites = (_id) => async dispatch =>{
+  const auth = getAuth()
+  const user = auth.currentUser
+  if (user !== null){
+    await deleteDoc(doc(db,"favorites", `${_id}`))
+  alert('Favorites Removed Successfully!!!' )
+  console.log(_id)
+  dispatch(fetchFavorites())
+  }
+  else{
+    alert("You are not authorized to remove Favorites")
+  } 
 }
 
 
@@ -420,7 +433,8 @@ export const fetchFavorites = () => async dispatch =>{
     let favorites = { user: user, dishes: []};
     querySnapshot.forEach((doc)=>{
       const data = doc.data()
-      favorites.dishes.push(data)
+      const _id = doc.id
+      favorites.dishes.push({_id, ...data})
       console.log(favorites)
     })
     return dispatch(addFavorites(favorites))

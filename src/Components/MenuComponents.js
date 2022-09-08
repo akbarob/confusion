@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Button,Card, CardImg, CardImgOverlay, CardTitle, Breadcrumb, BreadcrumbItem, Badge } from "reactstrap";
+import { Row, Col,Button,Card, CardImg, CardImgOverlay, CardTitle, Breadcrumb, BreadcrumbItem, Badge, CardBody } from "reactstrap";
 import { Loading } from "./Loading";
 import {motion} from 'framer-motion'
 
@@ -8,13 +8,24 @@ import {motion} from 'framer-motion'
  function RenderMenuItem (props) {
    
   return(
-      <div  className="col-12 col-md-5 mx-auto my-5">
-          <Card  className="shadow-sm " >
-            <Link to ={`/menu/${props.dish._id}`} >
-            <CardImg width="100%"src={props.dish.image}/>
-            <CardImgOverlay>
-              <CardTitle>{props.dish.name}</CardTitle>
-            </CardImgOverlay>
+      <div  className="col-12 col-md-6 mx-auto my-5 justify-content-center ">
+          <Card  className="shadow-sm border-0" >
+            <Link to ={`/menu/${props.dish._id}`}  className='menu-item'>
+              <Row className="g-0">
+                <Col xs={4}>
+                  <CardImg width="100%"src={props.dish.image}/>
+                  <CardImgOverlay className="position-relative"><Badge pill color="danger" className="position-absolute top-0 start-100 translate-middle">{props.dish.label}</Badge>
+                  </CardImgOverlay>
+                  </Col>
+                <Col xs={8}>
+                  <CardBody>
+                    <CardTitle> <h3>{props.dish.name}</h3></CardTitle>
+                    <CardTitle> <h4><span className="naira">N</span> {props.dish.price}</h4></CardTitle>
+                  </CardBody>
+                </Col>
+              </Row>
+            
+           
             </Link>
           </Card>
       </div>
@@ -54,7 +65,7 @@ import {motion} from 'framer-motion'
           <motion.div className="container"
           initial={{opacity:0, width:0}}
           animate={{opacity:1, width:"100%"}}
-          exit={{opacity:0, x:window.innerWidth, transition:{duration:0.3}}}
+          exit={{opacity:0, x:window.innerWidth, transition:{duration:0.5}}}
             
           >
             <div className="row">
@@ -72,7 +83,7 @@ import {motion} from 'framer-motion'
               </div>
 
             </div>
-            <div className="row">
+            <div className="row mx-auto text-center">
               {menu}
             </div>
           </motion.div>

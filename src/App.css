@@ -18,15 +18,27 @@
 }
 
 .footer{
-    background-color: #D1C4E9;
+    background-color: #493406ed;
     margin:0px auto;
     padding: 20px 0px 20px 0px;
+    margin-top: 4rem;
+    color: aliceblue;
+}
+.footer-link{
+    color: aliceblue;
+    text-decoration: none;
+}
+.footer-link:hover,.footer-link:focus, .footer-link:active{
+    color:#493406;
 }
 .jumbotron {
     padding:30px 30px 30px 30px;
     margin:0px auto;
-    background: #9575CD ;
-    color:floralwhite;
+    background: #493406 ;
+    background-image: url('/public/assets/images/pexels1.jpg');
+    background-position: 50% 60%;
+    background-size: 100%;
+    color:#ffb300;
 }
 .reserver-text{
     font-size: small;
@@ -38,9 +50,16 @@ address{
     margin:0px;
     color:#0f0f0f;
 }
+.menu-item{
+    text-decoration: none;
+    color: #493406;
+}
+.naira{
+    text-decoration: double line-through;
+}
 
 .navbar-dark {
-    background-color: #512DA8;
+    background-color: #493406;
 }
 
 .page-enter{

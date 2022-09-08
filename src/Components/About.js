@@ -75,7 +75,7 @@ export default function About(props) {
         <motion.div className="container"
             initial={{opacity:0, width:0}}
             animate={{opacity:1, width:"100%"}}
-            exit={{opacity:0, x:window.innerWidth, transition:{duration:0.3}}}>
+            exit={{opacity:0, x:window.innerWidth, transition:{duration:0.5}}}>
             <div className='row'>
                 <Breadcrumb>
                     <BreadcrumbItem><Link to="/home">Home</Link></BreadcrumbItem>

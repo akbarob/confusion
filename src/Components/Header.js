@@ -112,7 +112,7 @@ export default function Header (props){
                     <Nav className="ms-auto" navbar>
                                 <NavItem>
                                     { !props.auth.isAuthenticated ?
-                                        <Button outline onClick={toggleModal}>
+                                        <Button outline color='light' onClick={toggleModal}>
                                             <span className="fa fa-sign-in fa-lg"></span> Login
                                             {props.auth.isFetching ?
                                                 <span className="fa fa-spinner fa-pulse fa-fw"></span>
@@ -121,18 +121,17 @@ export default function Header (props){
                                         </Button>
                                         :
                                         <Row>
-                                            <Col sm='12' lg='6'>
-                                            <h6 className="navbar-text mr-3"> <small>{props.auth.user.email}</small></h6>
-
+                                            <Col sm='12' lg='auto'>
+                                                <h6 className="navbar-text"> <small>{props.auth.user.email}</small></h6>
                                             </Col>
-                                            <Col sm='12' lg='6'>
-                                            <Button outline onClick={handleLogout}>
-                                            <span className="fa fa-sign-out fa-lg"></span> Logout
-                                            {props.auth.isFetching ?
-                                                <span className="fa fa-spinner fa-pulse fa-fw"></span>
-                                                : null
-                                            }
-                                        </Button>
+                                            <Col sm='12' lg='auto'>
+                                                <Button outline color='light' onClick={handleLogout}>
+                                                <span className="fa fa-sign-out fa-lg"></span> Logout
+                                                {props.auth.isFetching ?
+                                                    <span className="fa fa-spinner fa-pulse fa-fw"></span>
+                                                    : null
+                                                }
+                                                </Button>
                                             </Col>
                                         </Row>
                                         

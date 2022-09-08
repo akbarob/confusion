@@ -30,7 +30,7 @@ export default function Reservation(){
             </OverlayTrigger>
 
             <Modal isOpen={modal} toggle={toggleReservation} >
-                <ModalHeader > Reserve Table
+                <ModalHeader > Reserve Table <br/>
                     <small className="reserver-text">Please fill the form below accurately to enable us serve you better!.. welcome!</small>
                 </ModalHeader>
                 <ModalBody>
@@ -40,7 +40,7 @@ export default function Reservation(){
                                 <Label htmlFor='firstname'>FirstName</Label>
                                 <Col >
                                 <Control.text 
-                                className='col-12 form-input'
+                                className='col-12 form-control'
                                 model='.firstname'
                                 name='firstname' 
                                 type='text' 
@@ -64,7 +64,7 @@ export default function Reservation(){
                                 <Label htmlFor='lastname'>LastName</Label>
                                 <Col >
                                 <Control.text 
-                                className='col-12 form-input'
+                                className='col-12 form-control'
                                 model='.lastname'
                                 name='lastname' 
                                 type='text' 
@@ -90,7 +90,7 @@ export default function Reservation(){
                             <Label htmlFor="email">E-mail</Label>
                             <Col>
                                 <Control.text
-                                    className='col-12 form-input'
+                                    className='col-12 form-control'
                                     model='.email'
                                     name='email' 
                                     type='text' 
@@ -116,7 +116,7 @@ export default function Reservation(){
                                 <Label htmlFor="phone">Phone No</Label>
                                 <Col>
                                     <Control.text
-                                        className='col-12 form-input'
+                                        className='col-12 form-control'
                                         model='.phone'
                                         name='phone' 
                                         type='text' 
@@ -132,7 +132,7 @@ export default function Reservation(){
                                     className="text-danger"
                                     show="touched"
                                     messages={{
-                                        required: "Rqquired",
+                                        required: "Required",
                                         minLength: 'Must be 11 numbers',
                                         maxLength: 'Must be 11 numbers',
                                         isNumber: 'Must be a number'
@@ -144,7 +144,7 @@ export default function Reservation(){
                                 <Label htmlFor="guest">#of Guests</Label>
                                 <Col>
                                     <Control.text
-                                        className='col-12 form-input'
+                                        className='col-12 form-control'
                                         model='.guest'
                                         name='guest' 
                                         type='number' 
@@ -194,7 +194,10 @@ export default function Reservation(){
                         </Row>
                         <Row  className="form-group my-3 text-center" >
                             <Col >
-                                <Button type="submit" color="warning">Reserve</Button>
+                                <Button type="submit" color="warning" onClick={toggleReservation}>Reserve</Button>
+                            </Col>
+                            <Col >
+                                <Button type="cancel" color="danger" onClick={toggleReservation}>Cancel</Button>
                             </Col>
                         </Row>
                     </Form>

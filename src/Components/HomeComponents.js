@@ -23,9 +23,9 @@ function RenderCard(props){
                 <CardImg src={ props.item.image } alt={props.item.name} />
                 <CardBody >
                     <CardTitle>
-                        {props.item.name}
+                        <h4>{props.item.name}</h4>
                     </CardTitle>
-                    {props.item.designation ? <CardSubtitle>{props.item.designation}</CardSubtitle> :null}
+                    {props.item.designation ? <CardSubtitle><em>{props.item.designation}</em></CardSubtitle> :null}
                    <CardText style={{maxheight: '3rem'}} >{props.item.description}</CardText> 
                 </CardBody>
                 
@@ -59,7 +59,7 @@ export default function Home(props){
             <motion.div className="container mt-5"
              initial={{opacity:0, width:0}}
              animate={{opacity:1, width:"100%"}}
-             exit={{opacity:0, x:window.innerWidth, transition:{duration:1}}}>
+             exit={{opacity:0, x:window.innerWidth, transition:{duration:.5}}}>
                 <motion.div className="row align-items-start"
                 variants={container}
                 initial="hidden"

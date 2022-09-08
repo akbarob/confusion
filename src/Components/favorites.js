@@ -4,7 +4,15 @@ import { Loading } from "./Loading"
 import { Row, Col, Button, Card, CardImg, CardBody, CardTitle, Breadcrumb, BreadcrumbItem, } from "reactstrap"
 
 function RenderFavoritesItems(props){
-    console.log(props.dish)
+    
+    const favId = props.dish._id
+    const itemId = props.id
+
+    console.log(itemId)
+    function handleDeleteFavorites(){
+        let _id=props.id
+        props.deleteFavorites(_id)
+    }
     return(
         <Card className="mb-5 border-0 shadow-sm" >
          <Row>
@@ -14,13 +22,13 @@ function RenderFavoritesItems(props){
             <Col xs={7}>
                 <CardBody >
                     <CardTitle>
-                    {props.dish.name}
-                    <p>{props.dish.price}</p>
+                    <h3>{props.dish.name}</h3>
+                    <h4><span className="naira">N</span> {props.dish.price}</h4>
                     </CardTitle>
                 </CardBody>
             </Col>
             <Col xs={2}>
-                <Button className ='text-center' size='sm' outline color='danger'>
+                <Button  type='submit'  className ='text-center' size='sm' outline color='danger' onClick={handleDeleteFavorites}>
                     <span className="fa fa-times "></span>
                 </Button>
             </Col>
@@ -29,7 +37,6 @@ function RenderFavoritesItems(props){
         </Card>
     )
 }
-
 
 export default function Favorites(props){
     if (props.Favorites.isLoading) {
@@ -51,13 +58,16 @@ export default function Favorites(props){
         )
     }
     else if(props.Favorites.Favorites){
-        console.log(props.Favorites.Favorites.dishes)
+        let me = props.Favorites.Favorites.dishes
+        console.log(props.Favorites.Favorites.dishes, me)
      const favor =props.Favorites.Favorites.dishes.map( (dishId) => {
         let dish = props.dishes.dishes.filter(dish => dish._id === dishId.dishId)[0]
-        
+        console.log(dishId._id)
+        const itemId = dishId._id
+
         
         return(
-            <RenderFavoritesItems key={dishId._id} dish={dish}/>
+            <RenderFavoritesItems  dish={dish} key={dishId._id} id={itemId} deleteFavorites={props.deleteFavorites}/>
         )
      })
     return(
@@ -65,9 +75,8 @@ export default function Favorites(props){
         <motion.div className="container"
           initial={{opacity:0, width:0}}
           animate={{opacity:1, width:"100%"}}
-          exit={{opacity:0, x:window.innerWidth, transition:{duration:0.3}}}
+          exit={{opacity:0, x:window.innerWidth, transition:{duration:0.5}}}
           >
-            <h4>Favprites</h4>
             <div className="row">
               <Breadcrumb>
                 <BreadcrumbItem>
