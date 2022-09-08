@@ -4,8 +4,8 @@ import Footer from './Footer';
 
 import DishDetails from "./DishDetails";
 import Home from './HomeComponents';
-import { useParams} from 'react-router-dom'
-import { postComment,fetchDishes,fetchComments,fetchPromos, fetchLeaders,postFeedback, loginUser, googleLogin, logoutUser, signupUser, fetchFavorites, deleteComment} from '../redux/ActionCreators';
+import { Route, useParams} from 'react-router-dom'
+import { postComment,fetchDishes,fetchComments,fetchPromos, fetchLeaders,postFeedback, loginUser, googleLogin, logoutUser, signupUser, fetchAuth, deleteComment, fetchFavorites, postFavorites} from '../redux/ActionCreators';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { actions} from "react-redux-form";
@@ -18,7 +18,8 @@ const mapStateToProps = state => {
       Leaders: state.Leaders,
       Comments: state.Comments,
       Promotions: state.Promotions,
-      auth: state.auth
+      auth: state.auth,
+      Favorites: state.Favorites
     };
   };
   
@@ -37,8 +38,10 @@ const mapStateToProps = state => {
       loginUser: (values) => dispatch(loginUser(values)),
       logoutUser:()=> dispatch(logoutUser()),
       signupUser:(values) => dispatch(signupUser(values)),
-      fetchFavorites:()=> dispatch(fetchFavorites()),
-      deleteComment:(itemId)=> dispatch(deleteComment(itemId))
+      fetchAuth:()=> dispatch(fetchAuth()),
+      deleteComment:(itemId)=> dispatch(deleteComment(itemId)),
+      fetchFavorites: ()=> dispatch(fetchFavorites()),
+      postFavorites:(del)=> dispatch(postFavorites(del))
   });
   class MainClass extends Component{
    
@@ -47,6 +50,7 @@ const mapStateToProps = state => {
       this.props.fetchComments()
       this.props.fetchPromos()
       this.props.fetchLeaders()
+      this.props.fetchAuth()
       this.props.fetchFavorites()
      
       
@@ -81,6 +85,7 @@ const mapStateToProps = state => {
     
 
     return (
+      this.props.auth.isAuthenticated?
       <>
         Comments total {this.props.Comments.Comments.length}
         <p>
@@ -96,12 +101,31 @@ const mapStateToProps = state => {
             postComment={this.props.postComment}
             deleteComment={this.props.deleteComment}
             auth={this.props.auth}
+            postFavorites={this.props.postFavorites}
+            favorite = {false}
         />
       </>
+      :
+      <>
+        <DishDetails
+            dish={this.props.dishes.dishes.filter(dish => dish._id === dishId)[0]}
+            isLoading={this.props.dishes.isLoading}
+            errMess={this.props.dishes.errMess}
+            comments={this.props.Comments.Comments.filter(comment => comment.dishId === dishId)}
+            commentsErrMess={this.props.Comments.errMess}
+            postComment={this.props.postComment}
+            deleteComment={this.props.deleteComment}
+            auth={this.props.auth}
+            
+        />
+      </>
+
     );
   };
 
-        return(
+  
+
+      return(
             <div >
         <Header
           auth={this.props.auth}
@@ -118,6 +142,10 @@ const mapStateToProps = state => {
               reset={this.props.resetFeedbackForm}
               Leaders={this.props.Leaders.Leaders}
               postFeedback={this.props.postFeedback}
+              auth={this.props.auth}
+              Favorites={this.props.Favorites}
+              
+
 
             />
         <Footer/>

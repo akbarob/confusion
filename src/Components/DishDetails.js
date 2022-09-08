@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardBody, CardImg,  CardText, CardTitle,  Breadcrumb, BreadcrumbItem, Button } from "reactstrap";
+import { Card, CardBody, CardImg,  CardText, CardTitle,  Breadcrumb, BreadcrumbItem, Button, CardImgOverlay } from "reactstrap";
 import { Link,  } from "react-router-dom";
 import RenderCommentForm from "./CommentForm";
 import { Loading } from "./Loading";
@@ -7,10 +7,18 @@ import {motion} from 'framer-motion'
 
 
 function RenderDish(props){
-  
 
   const dish = props.dish
-  console.log("function working")
+  const itemId = props.dish._id
+  function handleAddFavorites(id){
+    const post= id.target.id
+    // alert(post)
+    props.postFavorites(post)
+  console.log(post)  
+}
+
+  
+  console.log(itemId)
   if(dish !=null){
       return(
         <motion.div className="container" 
@@ -21,11 +29,21 @@ function RenderDish(props){
           <div className="row">
             <Card>
                 <CardImg width="100%"src={ dish.image}/>
+                <CardImgOverlay>
+                
+                </CardImgOverlay>
                 <CardBody>
                   <CardTitle>{dish.name}</CardTitle>
                   <CardText>{dish.description}</CardText>
                 </CardBody>
               </Card>
+              <Button size="sm" type='submit' className=" btn-warning" onClick={ props.favorite ? console.log('Already favorite') : handleAddFavorites} id={itemId}>
+                  {props.favorite ?
+                  <span className="fa fa-heart"></span>
+                 :
+                  <span className="fa fa-heart-o"></span>
+                  }
+              </Button>
             </div>
           </motion.div>
         )
@@ -164,7 +182,9 @@ export default function DishDetails (props){
     </div>
     <div className="row">
         <div className="col-12 col-md-5 m-1">
-            <RenderDish dish={props.dish} />
+            <RenderDish dish={props.dish} 
+            postFavorites={props.postFavorites}
+            favorite={props.favorite}/>
         </div>
         <div className="col-12 col-md-5 m-1">
             <RenderComments 

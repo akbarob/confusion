@@ -80,14 +80,26 @@ export default function Header (props){
                                    <span className='fa fa-home fa-lg'></span> Home
                                </NavLink>
                            </NavItem>
-                           <NavItem>
-                               <NavLink className="nav-link" to='/about'>
-                                   <span className='fa fa-info fa-lg'></span> About
-                               </NavLink>
-                           </NavItem>
+                          
                            <NavItem>
                                <NavLink className="nav-link" to='/menu'>
                                    <span className='fa fa-list fa-lg'></span> Menu
+                               </NavLink>
+                           </NavItem>
+                            {props.auth.isAuthenticated ?
+                            <NavItem>
+                                <NavLink className="nav-link" to="/favorites">
+                                    <span className="fa fa-heart fa-lg"></span> My Favorites
+                                </NavLink>
+                            </NavItem>
+                            :
+                                null
+                            }
+                           
+                            
+                           <NavItem>
+                               <NavLink className="nav-link" to='/about'>
+                                   <span className='fa fa-info fa-lg'></span> About
                                </NavLink>
                            </NavItem>
                            <NavItem>

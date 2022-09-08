@@ -2,7 +2,7 @@ import * as ActionTypes from "./ActionTypes";
 import { baseUrl } from "../shared/baseUrl";
 
 import { auth, db, provider } from "../firebase/firebase";
-import { collection, doc, getDocs, addDoc, serverTimestamp, deleteDoc} from "firebase/firestore";
+import { collection, doc, getDocs, addDoc, serverTimestamp, deleteDoc, where,query} from "firebase/firestore";
 import {getAuth, signInWithEmailAndPassword, onAuthStateChanged, GoogleAuthProvider,signInWithPopup, signOut, createUserWithEmailAndPassword,  } from "firebase/auth";
 import { async } from "@firebase/util";
 
@@ -331,7 +331,8 @@ export const signupUser= (values) => async dispatch =>{
       const user = userCredential.user
     console.log( user)
      // Dispatch the success action
-     dispatch(receiveLogin(user));
+     dispatch(receiveLogin(user))
+     dispatch(fetchFavorites());
   }
   catch(error){
     console.log(error.message)
@@ -347,6 +348,7 @@ export const loginUser = (values) => async (dispatch )=> {
     var user = userCredential.user
     localStorage.setItem('user' , JSON.stringify(user))
     dispatch(receiveLogin(user))
+    dispatch(fetchFavorites())
     console.log(user)
   }
   catch (error) {
@@ -371,7 +373,7 @@ export const logoutUser = () => (dispatch) => {
   
 }
  
-export const fetchFavorites = () => (dispatch) => {
+export const fetchAuth = () => (dispatch) => {
   const auth = getAuth()
   onAuthStateChanged(auth, (user) =>{
     
@@ -380,6 +382,7 @@ export const fetchFavorites = () => (dispatch) => {
       console.log(uid)
       localStorage.setItem('user', JSON.stringify(user))
       dispatch(receiveLogin(user))
+      dispatch(fetchFavorites())
     }
     else{
     console.log( "User is signed out" )
@@ -388,5 +391,64 @@ export const fetchFavorites = () => (dispatch) => {
   })
   
   
+
+}
+
+//Favotites
+export const favoritesLoading = () => ({
+  type: ActionTypes.FAVORITES_LOADING
+});
+
+export const favoritesFailed = (errmess) => ({
+  type: ActionTypes.FAVORITES_FAILED,
+  payload: errmess
+});
+
+export const addFavorites = (favorites) => ({
+  type: ActionTypes.ADD_FAVORITES,
+  payload: favorites
+});
+
+export const fetchFavorites = () => async dispatch =>{
+  const auth = getAuth()
+  const user = auth.currentUser
+  
+  dispatch(favoritesLoading(true))
+  try{
+    const q = query(collection(db, "favorites"), where('user', '==', user.uid))
+    const querySnapshot = await getDocs(q)
+    let favorites = { user: user, dishes: []};
+    querySnapshot.forEach((doc)=>{
+      const data = doc.data()
+      favorites.dishes.push(data)
+      console.log(favorites)
+    })
+    return dispatch(addFavorites(favorites))
+    
+  }
+  
+  catch (error) {
+    return dispatch(favoritesFailed(error.message));
+  }
+  
+}
+export const postFavorites = (del) => async dispatch =>{
+  const auth = getAuth()
+  const user = auth.currentUser
+  if(user !== null){
+        // Add a new Favorites.
+    const favorites = await addDoc(collection(db, "favorites"), {
+      dishId  : del,
+      user : auth.currentUser.uid,
+      });
+      console.log("Document written with ID: ", favorites);
+      dispatch(addFavorites(favorites))
+      dispatch(fetchFavorites())
+  }
+    
+    else{
+      alert('sign-in to Post Comment')
+    }
+
 
 }
