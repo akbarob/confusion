@@ -64,20 +64,20 @@ export default function Home(props){
                 variants={container}
                 initial="hidden"
                 animate="show">
-                    <motion.div className="col-12 col-md m-1"
+                    <motion.div className="col-10 col-md-4 m-1 mx-auto"
                     variants={item} >
                         <RenderCard item={props.dishes} 
                         isLoading={props.dishesLoading}
                         errMess={props.dishesErrMess}
                         />
                     </motion.div>
-                    <motion.div className="col-12 col-md m-1"
+                    <motion.div className="col-10 col-md-4 m-1 mx-auto"
                     variants={item} >
                         <RenderCard item={props.Promotions}
                         isLoading={props.promosLoading}
                         errMess={props.promosErrMess}/>
                     </motion.div>
-                    <motion.div className="col-12 col-md m-1"
+                    <motion.div className="col-10 col-md-4 m-1 mx-auto"
                     variants={item} >
                         <RenderCard item={props.Leaders}
                         isLoading={props.leadersLoading}
