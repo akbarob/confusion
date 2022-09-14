@@ -5,32 +5,39 @@ import { Loading } from './Loading';
 
 
 function RenderLeader (props){
+    
+const variants = {
+    visible: { opacity: 1, scale: 1, transition: { duration: 0.5 } },
+    hidden: { opacity: 0, scale: 0 }
+  };
 
-    const list ={
-        visible: {
-            opacity:1 ,
-            transition:{
-                when: 'beforeChildren',
-                staggerChildren: 0.3,
-                staggerDirection: 1
-            }
-        },
-        hidden:{
-            opacity:0,
-            transmition:{
-                when:'afterChildren',
-            }
-        }
-    }
+    // const list ={
+    //     visible: {
+    //         opacity:1 ,
+    //         transition:{
+    //             when: 'beforeChildren',
+    //             staggerChildren: 0.3,
+    //             staggerDirection: 1
+    //         }
+    //     },
+    //     hidden:{
+    //         opacity:0,
+    //         transmition:{
+    //             when:'afterChildren',
+    //         }
+    //     }
+    // }
 
-    const child ={
-        visible:{opacity: 1, x: 0},
-        hidden:{opacity:0, x:-100}
-    }
+    // const child ={
+    //     visible:{opacity: 1, x: 0},
+    //     hidden:{opacity:0, x:-100}
+    // }
     const leaders= props.leaders.map(lead => {
         return(
             <motion.div key={lead._id} lead={lead.id}
-            variants={child}
+            variants={variants}
+            initial="hidden"
+            whileInView="visible"
             >
                 <Card className='mb-3 shadow-sm border-0'>
                     <Row className='g-0'>
@@ -62,7 +69,7 @@ function RenderLeader (props){
     else
     return(
         <motion.div
-        initial='hidden' animate='visible' variants={list}>
+        >
             {leaders}
         </motion.div>
     )

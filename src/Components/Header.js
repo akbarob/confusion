@@ -4,6 +4,7 @@ import {  NavLink } from 'react-router-dom';
 import { useState, useEffect, } from 'react';
 import Reservation from './Resevation';
 import { receiveLogin } from '../redux/ActionCreators';
+import { motion } from 'framer-motion';
 export default function Header (props){
    
     // useEffect(()=>{
@@ -72,7 +73,10 @@ export default function Header (props){
                     <NavbarBrand  className='' href="/" >
                         <img src='assets/images/logo.png' width='41'height='30'alt="Ristorante Con Fusion"/>
                     </NavbarBrand>
-                    <NavbarToggler onClick={toggleNav} className='col-2 '/>
+                    <motion.div whileTap={{scale:0.9}} onClick={toggleNav}>
+                    <span  className='col-2 shadow-none' ><NavbarToggler/></span>
+                    </motion.div>
+                    
                     <Collapse isOpen={open} navbar className=' ml-auto'>
                     <Nav navbar className='ml-auto'>
                            <NavItem>
