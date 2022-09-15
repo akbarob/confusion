@@ -10,11 +10,10 @@ function RenderDish(props){
 
   const dish = props.dish
   const itemId = props.dish._id
-  function handleAddFavorites(id){
-    const post= id.target.id
-    alert("added to Favorites")
-    props.postFavorites(post)
-  console.log(post)  
+  function handleAddFavorites(){
+    let _id = itemId
+    props.postFavorites(_id)
+  console.log(_id)  
 }
 
   
@@ -37,7 +36,7 @@ function RenderDish(props){
                   <CardText>{dish.description}</CardText>
                 </CardBody>
               </Card>
-              <Button size="sm" type='submit' className=" btn-warning" onClick={ props.favorite ? console.log('Already favorite') : handleAddFavorites} id={itemId}>
+              <Button size="sm" type='submit' className=" btn-warning" onClick={ props.favorite ? console.log('Already favorite') : handleAddFavorites}>
                   {props.favorite ?
                   <span className="fa fa-heart"></span> 
                   

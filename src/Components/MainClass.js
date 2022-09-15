@@ -41,7 +41,7 @@ const mapStateToProps = state => {
       fetchAuth:()=> dispatch(fetchAuth()),
       deleteComment:(itemId)=> dispatch(deleteComment(itemId)),
       fetchFavorites: ()=> dispatch(fetchFavorites()),
-      postFavorites:(del)=> dispatch(postFavorites(del)),
+      postFavorites:(_id)=> dispatch(postFavorites(_id)),
       deleteFavorites:(_id) => dispatch(deleteFavorites(_id))
   });
   class MainClass extends Component{

@@ -446,13 +446,13 @@ export const fetchFavorites = () => async dispatch =>{
   }
   
 }
-export const postFavorites = (del) => async dispatch =>{
+export const postFavorites = (_id) => async dispatch =>{
   const auth = getAuth()
   const user = auth.currentUser
   if(user !== null){
         // Add a new Favorites.
     const favorites = await addDoc(collection(db, "favorites"), {
-      dishId  : del,
+      dishId  : _id,
       user : auth.currentUser.uid,
       });
       console.log("Document written with ID: ", favorites);
