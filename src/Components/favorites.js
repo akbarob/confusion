@@ -2,6 +2,9 @@ import { motion } from "framer-motion"
 import { Link } from "react-router-dom"
 import { Loading } from "./Loading"
 import { Row, Col, Button, Card, CardImg, CardBody, CardTitle, Breadcrumb, BreadcrumbItem, } from "reactstrap"
+import { useEffect } from "react"
+import { fetchFavorites } from "../redux/ActionCreators"
+import { useDispatch } from "react-redux"
 
 function RenderFavoritesItems(props){
     const favId = props.dish._id
@@ -68,6 +71,10 @@ function RenderFavoritesItems(props){
 }
 
 export default function Favorites(props){
+    const dispatch = useDispatch()
+    useEffect(()=>{
+        dispatch(fetchFavorites())
+    },[fetchFavorites])
     if (props.Favorites.isLoading) {
         return(
             <div className="container">
@@ -143,7 +150,6 @@ export default function Favorites(props){
                     </div>
                 </div> 
                 :
-        
                 favor}
             </div>
           </motion.div>

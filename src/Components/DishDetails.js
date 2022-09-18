@@ -41,7 +41,7 @@ function RenderDish(props){
                   <span className="fa fa-heart"></span> 
                   
                  :
-                  <span className="fa fa-heart-o"></span>
+                  <span className="fa fa-heart-o"> Add to Favorite</span>
                   }
               </Button>
             </div>
