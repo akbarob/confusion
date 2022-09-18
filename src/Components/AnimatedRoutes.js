@@ -36,7 +36,9 @@ export default function AnimatedRoutes(props){
                 <Route path='/about' element={<About Leaders={props.Leaders} />}/>
                 <Route path='/favorites' element={
                 <PrivateRoutes auth={props.auth.isAuthenticated}> 
-                    <Favorites Favorites={props.Favorites}dishes={props.dish} deleteFavorites={props.deleteFavorites}/>
+                    <Favorites Favorites={props.Favorites}dishes={props.dish}
+                     deleteFavorites={props.deleteFavorites}
+                     deleteAllFavorites={props.deleteAllFavorites}/>
                 </PrivateRoutes>}
                 />
              

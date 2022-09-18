@@ -5,7 +5,7 @@ import Footer from './Footer';
 import DishDetails from "./DishDetails";
 import Home from './HomeComponents';
 import { Route, useParams} from 'react-router-dom'
-import { postComment,fetchDishes,fetchComments,fetchPromos, fetchLeaders,postFeedback, loginUser, googleLogin, logoutUser, signupUser, fetchAuth, deleteComment, fetchFavorites, postFavorites, deleteFavorites} from '../redux/ActionCreators';
+import { postComment,fetchDishes,fetchComments,fetchPromos, fetchLeaders,postFeedback, loginUser, googleLogin, logoutUser, signupUser, fetchAuth, deleteComment, fetchFavorites, postFavorites, deleteFavorites, deleteAllFavorites} from '../redux/ActionCreators';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { actions} from "react-redux-form";
@@ -42,7 +42,10 @@ const mapStateToProps = state => {
       deleteComment:(itemId)=> dispatch(deleteComment(itemId)),
       fetchFavorites: ()=> dispatch(fetchFavorites()),
       postFavorites:(_id)=> dispatch(postFavorites(_id)),
-      deleteFavorites:(_id) => dispatch(deleteFavorites(_id))
+      deleteFavorites:(_id) => dispatch(deleteFavorites(_id)),
+      deleteAllFavorites:(_id) => dispatch(deleteAllFavorites(_id))
+
+      
   });
   class MainClass extends Component{
    
@@ -146,6 +149,7 @@ const mapStateToProps = state => {
               auth={this.props.auth}
               Favorites={this.props.Favorites}
               deleteFavorites={this.props.deleteFavorites}
+              deleteAllFavorites={this.props.deleteAllFavorites}
               
 
 

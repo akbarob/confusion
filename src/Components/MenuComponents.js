@@ -14,7 +14,7 @@ import {motion} from 'framer-motion'
               <Row className="g-0">
                 <Col xs={4}>
                   <CardImg width="100%"src={props.dish.image}/>
-                  <CardImgOverlay className="position-relative"><Badge pill color="danger" className="position-absolute top-0 start-100 translate-middle">{props.dish.label}</Badge>
+                  <CardImgOverlay className=""><Badge pill color="danger" className="position-absolute top-0 start-100 translate-middle">{props.dish.label}</Badge>
                   </CardImgOverlay>
                   </Col>
                 <Col xs={8}>

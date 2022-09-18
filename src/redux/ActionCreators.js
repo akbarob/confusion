@@ -2,7 +2,7 @@ import * as ActionTypes from "./ActionTypes";
 import { baseUrl } from "../shared/baseUrl";
 
 import { auth, db, } from "../firebase/firebase";
-import { collection, doc, getDocs, addDoc, serverTimestamp, deleteDoc, where,query} from "firebase/firestore";
+import { collection, doc, getDocs, addDoc, serverTimestamp, deleteDoc, where,query,getDoc, updateDoc, setDoc,arrayUnion, arrayRemove} from "firebase/firestore";
 import {getAuth, signInWithEmailAndPassword, onAuthStateChanged, GoogleAuthProvider,signInWithPopup, signOut, createUserWithEmailAndPassword,  } from "firebase/auth";
 import { async } from "@firebase/util";
 
@@ -58,19 +58,7 @@ export const deleteComment = (del) => async dispatch =>  {
   }
   
 }
-export const deleteFavorites = (_id) => async dispatch =>{
-  const auth = getAuth()
-  const user = auth.currentUser
-  if (user !== null){
-    await deleteDoc(doc(db,"favorites", `${_id}`))
-  alert('Favorites Removed Successfully!!!' )
-  console.log(_id)
-  dispatch(fetchFavorites())
-  }
-  else{
-    alert("You are not authorized to remove Favorites")
-  } 
-}
+
 
 
 export const fetchDishes = () => async (dispatch) => {
@@ -430,12 +418,13 @@ export const fetchFavorites = () => async dispatch =>{
   try{
     const q = query(collection(db, "favorites"), where('user', '==', user.uid))
     const querySnapshot = await getDocs(q)
-    let favorites = { user: user, dishes: []};
+    let favorites = { user: user, dishId: []};
     querySnapshot.forEach((doc)=>{
       const data = doc.data()
       const _id = doc.id
-      favorites.dishes.push({_id, ...data})
-      console.log(favorites)
+      favorites.dishId.push({_id, ...data})
+      console.log(favorites.dishId
+        )
     })
     return dispatch(addFavorites(favorites))
     
@@ -449,20 +438,66 @@ export const fetchFavorites = () => async dispatch =>{
 export const postFavorites = (_id) => async dispatch =>{
   const auth = getAuth()
   const user = auth.currentUser
+  const docRef = doc(db, "favorites", `${auth.currentUser.uid}`);
+  const docSnap = await getDoc(docRef);
+
   if(user !== null){
-        // Add a new Favorites.
-    const favorites = await addDoc(collection(db, "favorites"), {
-      dishId  : _id,
-      user : auth.currentUser.uid,
-      });
-      console.log("Document written with ID: ", favorites);
-      dispatch(addFavorites(favorites))
-      dispatch(fetchFavorites())
+     //check if favorites exsists and add
+     if(docSnap.exists()){
+      const favorites = await updateDoc(docRef, {
+       dishId : arrayUnion(_id)
+     })
+     dispatch(addFavorites(favorites))
+     dispatch(fetchFavorites())
+     alert('Added to Favorites')   
+
+   }
+   else{
+  // Add a new Favorites.
+  const favorites = await setDoc(doc(db, "favorites",`${auth.currentUser.uid}`), {
+    dishId  : [_id],
+    user : auth.currentUser.uid,
+    });
+    console.log("Document written with ID: ", favorites);
+    dispatch(addFavorites(favorites))
+    dispatch(fetchFavorites())
+    alert('Added to Favorites')   
+}
+  } 
+  else{
+    alert('sign-in to add to Favorites')
   }
-    
-    else{
-      alert('sign-in to Post Comment')
-    }
-
-
+}
+export const deleteFavorites = (_id) => async dispatch =>{
+  const auth = getAuth()
+  const user = auth.currentUser
+  const docRef = doc(db, "favorites", `${auth.currentUser.uid}`);
+  const docSnap = await getDoc(docRef);
+  if (user !== null){
+    if(docSnap.exists()){
+      const favorites = await updateDoc(docRef, {
+       dishId : arrayRemove(_id)
+     })
+  alert('Favorites Removed Successfully!!!' )
+  dispatch(addFavorites(favorites))
+  console.log(_id)
+  dispatch(fetchFavorites())
+  }
+  else{
+    alert("You are not authorized to remove Favorites")
+  } 
+  }
+}
+export const deleteAllFavorites = (_id) => async dispatch =>{
+  const auth = getAuth()
+  const user = auth.currentUser
+  if (user !== null){
+    await deleteDoc(doc(db,"favorites", `${_id}`))
+  alert('Favorites Removed Successfully!!!' )
+  console.log(_id)
+  dispatch(fetchFavorites())
+  }
+  else{
+    alert("You are not authorized to remove Favorites")
+  } 
 }

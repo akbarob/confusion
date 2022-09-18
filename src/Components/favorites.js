@@ -4,26 +4,34 @@ import { Loading } from "./Loading"
 import { Row, Col, Button, Card, CardImg, CardBody, CardTitle, Breadcrumb, BreadcrumbItem, } from "reactstrap"
 
 function RenderFavoritesItems(props){
-    
     const favId = props.dish._id
-    const itemId = props.id
+    const itemId = props.id // all dish id (collection id)
 
-    console.log(itemId)
-    function handleDeleteFavorites(){
-        let _id=props.id
-        props.deleteFavorites(_id)
+    // console.log(props.dish, itemId)
+    
+    function handleDeleteALL(){
+        let _id=itemId
+        console.log(_id)
+        props.deleteAllFavorites(_id)
     }
-    return(
-        <Card className="mb-5 border-0 shadow-sm" >
+    const favorites = props.dish.map(dish =>{
+        function handleDeleteFavorites(){
+            let _id=dish._id
+            console.log(_id)
+            props.deleteFavorites(_id)
+        }
+        console.log(dish._id)
+        return(
+            <Card className="mb-5 border-0 shadow-sm" key={dish._id}>
          <Row>
             <Col xs={3}>
-                <CardImg className= 'img-fluid' src={props.dish.image} alt={props.dish.name} style={{ width:"10rem"}}/>
+                <CardImg className= 'img-fluid' src={dish.image} alt={dish.name} style={{ width:"10rem"}}/>
             </Col>
             <Col xs={7}>
                 <CardBody >
                     <CardTitle>
-                    <h3>{props.dish.name}</h3>
-                    <h4><span className="naira">N</span> {props.dish.price}</h4>
+                    <h3>{dish.name}</h3>
+                    <h4><span className="naira">N</span> {dish.price}</h4>
                     </CardTitle>
                 </CardBody>
             </Col>
@@ -35,6 +43,27 @@ function RenderFavoritesItems(props){
          </Row>
             
         </Card>
+
+        )
+    })
+    return(
+        <div>
+            <Row className="mb-3">
+                <Col className="col-10">
+                    {favorites.length <= 1? <h6>You currently have {favorites.length} Favorite</h6>: <h6>You currently have {favorites.length} Favorites</h6>}
+                    
+                </Col>
+                <Col className="ml-2">
+                    {favorites.length >1 ? <Button outline color="danger" onClick={handleDeleteALL}>Delete All</Button>
+                    :
+                    null
+                    }
+                    
+                </Col>
+            </Row>
+
+            {favorites}
+        </div>
     )
 }
 
@@ -58,24 +87,38 @@ export default function Favorites(props){
         )
     }
     else if(props.Favorites.Favorites){
-        let me = props.Favorites.Favorites.dishes
-        console.log(props.Favorites.Favorites.dishes, me)
-     const favor =props.Favorites.Favorites.dishes.map( (dishId) => {
-        let dish = props.dishes.dishes.filter(dish => dish._id === dishId.dishId)[0]
-        console.log(dishId._id)
+        let me = props.Favorites.Favorites.dishId
+        console.log(me)
+
+     const favor =props.Favorites.Favorites.dishId.map( (dishId) => {
+
+        let dish = props.dishes.dishes.filter(dish => {
+            return dishId.dishId.some(f => {
+                return f === dish._id
+            })
+        })
+        let fav = dishId.dishId
+
+        // console.log(dish)
+        // console.log(dishId._id)
         const itemId = dishId._id
 
         
         return(
-            <RenderFavoritesItems  dish={dish} key={dishId._id} id={itemId} deleteFavorites={props.deleteFavorites}/>
+            <RenderFavoritesItems  dish={dish} key={dishId._id} id={itemId} 
+            deleteFavorites={props.deleteFavorites}
+            deleteAllFavorites={props.deleteAllFavorites}/>
         )
      })
+     console.log(favor)
+
     return(
         
         <motion.div className="container"
           initial={{opacity:0, width:0}}
           animate={{opacity:1, width:"100%"}}
           exit={{opacity:0, x:window.innerWidth, transition:{duration:0.5}}}
+          style={{minHeight: "70vh"}}
           >
             <div className="row">
               <Breadcrumb>
@@ -93,8 +136,15 @@ export default function Favorites(props){
 
             </div>
             <div className="">
-                <h6>You currently have {favor.length} Favorites</h6>
-                {favor}
+                {favor.length <1 ? 
+                <div className="container text-center ">
+                    <div className="row">
+                        <h4>You have no favorites</h4>
+                    </div>
+                </div> 
+                :
+        
+                favor}
             </div>
           </motion.div>
     )
