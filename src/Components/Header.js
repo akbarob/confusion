@@ -31,9 +31,9 @@ export default function Header (props){
         toggleModal()
         //alert("Login Succesfully" + JSON.stringify(values));
         //console.log("THANK YOU FOR YOUR FEEDBACK" + JSON.stringify(values));
-        setSignupModalOpen(false)
-        setModalOpen(false)
-        setOpen(false)
+        // setSignupModalOpen(false)
+        // setModalOpen(false)
+        // setOpen(false)
         
 
     }
@@ -47,7 +47,7 @@ export default function Header (props){
     }
     function handleSignup(values){
         props.signupUser(values)
-        setSignupModalOpen(false)
+        // setSignupModalOpen(false)
         setModalOpen(false)
         setOpen(false)
         
@@ -139,7 +139,6 @@ export default function Header (props){
                                             </Col>
                                         </Row>
                                         
-                                        
                                     }
 
                                 </NavItem>
@@ -160,7 +159,7 @@ export default function Header (props){
                     </div>
                 </div>
             </div>
-            <Modal isOpen={ModalOpen} toggle={toggleModal} >
+            <Modal isOpen={ModalOpen} toggle={() => setModalOpen(false)} id='loginModal' centered >
                 <ModalHeader >LOGIN
                     <Button close className='m-auto' onClick={toggleModal}></Button>
                 </ModalHeader>
@@ -192,7 +191,13 @@ export default function Header (props){
                             />
                             </Col>
                         </Row>
-                        
+                        <Row className='text-danger'>
+                            <h4 id='loginError'></h4>
+                        </Row>
+                        <Row className='text-center'>
+                            <a>Forgotten Password?</a>
+                        </Row>
+
                         <Row  className="form-group my-3" >
                                 <Button className=' offset-1  col-4' type="submit" color="primary" onClick={handleLogin}>Login</Button>
                                 <Button className= " offset-2 col-4" color='danger'onClick={toggleModal}>Cancel</Button>
@@ -252,6 +257,9 @@ export default function Header (props){
                             autoComplete="on"
                             />
                             </Col>
+                        </Row>
+                        <Row className='text-danger'>
+                            <h4 id='signUpError'></h4>
                         </Row>
                         
                         <Row  className="form-group my-3 mx-auto text-center" >

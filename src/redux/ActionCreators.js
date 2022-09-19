@@ -334,8 +334,12 @@ export const signupUser= (values) => async dispatch =>{
      // Dispatch the success action
      dispatch(receiveLogin(user))
      dispatch(fetchFavorites());
+     window.location.href='/home'    
+    document.getElementById('loginError').innerHTML = ''
   }
   catch(error){
+    console.log(error.message)
+    document.getElementById('signUpError').innerHTML = error.message
     console.log(error.message)
   }
   
@@ -349,11 +353,17 @@ export const loginUser = (values) => async (dispatch )=> {
     var user = userCredential.user
     localStorage.setItem('user' , JSON.stringify(user))
     dispatch(receiveLogin(user))
-    dispatch(fetchFavorites())
+    // dispatch(fetchFavorites())
     console.log(user)
+    window.location.href='/home'    
+    document.getElementById('loginError').innerHTML = ''
+
   }
   catch (error) {
-    return dispatch(loginError(error.message));
+    console.log(error.message)
+    document.getElementById('loginError').innerHTML = error.message
+    return dispatch(loginError(error.message))
+    
   }
 }
 
